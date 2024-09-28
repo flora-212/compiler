@@ -156,16 +156,13 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
     // local declarations
     // 2.1 flatten local declarations
 
-    if (_STR_EQ(n->children[1]->children[0]->name, "empty")) {
-      node->statement_list.push_back(nullptr);
-    } else {
+    if (n->children[1]->children_num == 2) {
       std::stack<syntax_tree_node *> s;
       auto list_ptr = n->children[1];
       while(list_ptr->children_num == 2){
         s.push(list_ptr->children[1]);
         list_ptr = list_ptr->children[0];
       }
-      s.push(list_ptr->children[0]);
       while(!s.empty()){
         auto child_node = 
           static_cast<ASTVarDeclaration *>(transform_node_iter(s.top()));
@@ -178,16 +175,13 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
     // statement list
     // 2.2 flatten statement-list
 
-    if (_STR_EQ(n->children[2]->children[0]->name, "empty")) {
-      node->statement_list.push_back(nullptr);
-    } else {
+    if (n->children[2]->children_num == 2) {
       std::stack<syntax_tree_node *> s;
       auto list_ptr = n->children[2];
       while(list_ptr->children_num == 2){
         s.push(list_ptr->children[1]);
         list_ptr = list_ptr->children[0];
       }
-      s.push(list_ptr->children[0]);
       while(!s.empty()){
         auto child_node = 
           static_cast<ASTStatement *>(transform_node_iter(s.top()));
@@ -426,6 +420,9 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
     return node;
   } else {
     std::cerr << "[ast]: transform failure!" << std::endl;
+    std::cout << "current node name:" << n->name << std::endl;
+    // std::cout << "current parent node name:" << n->parent->name << std::endl;
+    // std::cout << "current children num:" << n->children_num << std::endl;
     std::abort();
   }
 }
