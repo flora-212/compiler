@@ -384,11 +384,13 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
       if (_STR_EQ(name, "integer")) {
         // 3.1
 
+        num_node->i_val = std::stoi(n->children[i]->children[0]->name);
         num_node->type = TYPE_INT;
         
       } else if (_STR_EQ(name, "float")) {
         // 3.2
 
+        num_node->f_val = std::stof(n->children[i]->children[0]->name);
         num_node->type = TYPE_FLOAT;
 
       } else {
