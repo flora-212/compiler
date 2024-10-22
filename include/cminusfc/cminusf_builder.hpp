@@ -109,5 +109,10 @@ class CminusfBuilder : public ASTVisitor {
         // function that is being built
         Function *func = nullptr;
         // TODO: you should add more fields to store state
+        BasicBlock *current_block = nullptr; // 当前的基本块
+        Value *return_value = nullptr;  // 返回值
+        std::vector<Value *> function_args;  // 参数列表
+        BasicBlock *loop_entry = nullptr;    // 循环入口
+        BasicBlock *loop_exit = nullptr;     // 循环出口
     } context;
 };
