@@ -1,4 +1,5 @@
 #include "cminusf_builder.hpp"
+#include "logging.hpp"
 
 #define CONST_FP(num) ConstantFP::get((float)num, module.get())
 #define CONST_INT(num) ConstantInt::get(num, module.get())
@@ -38,11 +39,11 @@ Value* CminusfBuilder::visit(ASTNum &node) {
     // TODO: This function is empty now.
     // Add some code here.
     Value *val = nullptr;
-    if(node.type == CminusType::TYPE_INT){
-        val = ConstantInt::get(node.i_val, module.get());
+    if(node.type == TYPE_INT){
+        val = CONST_INT(node.i_val);
     }
-    else if(node.type == CminusType::TYPE_FLOAT){
-        val = ConstantFP::get(node.f_val, module.get());
+    else if(node.type == TYPE_FLOAT){
+        val = CONST_FP(node.f_val);
     }
     return val;
 }
@@ -50,6 +51,7 @@ Value* CminusfBuilder::visit(ASTNum &node) {
 Value* CminusfBuilder::visit(ASTVarDeclaration &node) {
     // TODO: This function is empty now.
     // Add some code here.
+    LOG(INFO) << node.id;
     Type *type_specifier = nullptr;
     if(node.type == CminusType::TYPE_INT){
         type_specifier = INT32_T;
@@ -81,6 +83,7 @@ Value* CminusfBuilder::visit(ASTVarDeclaration &node) {
 }
 
 Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
+    LOG(INFO) << node.id;
     FunctionType *fun_type;
     Type *ret_type;
     std::vector<Type *> param_types;
@@ -94,16 +97,16 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
     for (auto &param : node.params) {
         // TODO: Please accomplish param_types.
         if (param->isarray == 1){
-            if(param->type == CminusType::TYPE_INT){
-                param_types.push_back(module->get_pointer_type(INT32_T));
-            }else if(param->type == CminusType::TYPE_FLOAT){
-                param_types.push_back(module->get_pointer_type(FLOAT_T));
+            if(param->type == TYPE_INT){
+                param_types.push_back(INT32PTR_T);
+            }else if(param->type == TYPE_FLOAT){
+                param_types.push_back(FLOATPTR_T);
             }
         }
         else{
-            if(param->type == CminusType::TYPE_INT){
+            if(param->type == TYPE_INT){
                 param_types.push_back(INT32_T);
-            }else if(param->type == CminusType::TYPE_FLOAT){
+            }else if(param->type == TYPE_FLOAT){
                 param_types.push_back(FLOAT_T);
             }
         }
@@ -124,9 +127,26 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
         // TODO: You need to deal with params and store them in the scope.
         auto param = node.params[i];
         Value *val = nullptr;
-        val = builder->create_alloca(param_types[i]);
-        builder->create_store(args[i], val);
-        scope.push(param->id, val);
+        if(param->isarray){
+            if(param_types[i]->is_integer_type()){
+                val = builder->create_alloca(INT32PTR_T);
+            } else if(param_types[i]->is_float_type()){
+                val = builder->create_alloca(FLOATPTR_T);
+            }
+            Value *n = nullptr;
+            builder->create_store(args[i], val);
+            n = builder->create_load(val);
+            scope.push(param->id, n);
+        }
+        else{
+            if(param_types[i]->is_integer_type()){
+                val = builder->create_alloca(INT32_T);
+            } else if(param_types[i]->is_float_type()){
+                val = builder->create_alloca(FLOAT_T);
+            }
+            builder->create_store(args[i], val);
+            scope.push(param->id, val);
+        }
     }
     node.compound_stmt->accept(*this);
     if (not builder->get_insert_block()->is_terminated()) {
@@ -139,7 +159,6 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
     }
     scope.exit();
     return nullptr;
-
 }
 
 Value* CminusfBuilder::visit(ASTParam &node) {
@@ -152,7 +171,7 @@ Value* CminusfBuilder::visit(ASTCompoundStmt &node) {
     // TODO: This function is not complete.
     // You may need to add some code here
     // to deal with complex statements. 
-    
+    scope.enter();
     for (auto &decl : node.local_declarations) {
         decl->accept(*this);
     }
@@ -162,15 +181,16 @@ Value* CminusfBuilder::visit(ASTCompoundStmt &node) {
         if (builder->get_insert_block()->is_terminated())
             break;
     }
+    scope.exit();
     return nullptr;
 }
 
 Value* CminusfBuilder::visit(ASTExpressionStmt &node) {
     // TODO: This function is empty now.
     // Add some code here.
-    Value *val = nullptr;
-    val = node.expression->accept(*this);
-    return val;
+    if(node.expression != nullptr)
+        node.expression->accept(*this);
+    return nullptr;
 }
 
 Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
@@ -367,6 +387,7 @@ Value* CminusfBuilder::visit(ASTTerm &node) {
 Value* CminusfBuilder::visit(ASTCall &node) {
     // TODO: This function is empty now.
     // Add some code here.
+    LOG(INFO) << node.id;
     auto *f = dynamic_cast<Function*>(scope.find(node.id));
     if (f == nullptr) {
         throw std::runtime_error("Function not found: " + node.id);
