@@ -53,10 +53,10 @@ Value* CminusfBuilder::visit(ASTVarDeclaration &node) {
     // Add some code here.
     LOG(INFO) << node.id;
     Type *type_specifier = nullptr;
-    if(node.type == CminusType::TYPE_INT){
+    if(node.type == TYPE_INT){
         type_specifier = INT32_T;
     }
-    else if(node.type == CminusType::TYPE_FLOAT){
+    else if(node.type == TYPE_FLOAT){
         type_specifier = FLOAT_T;
     }
     Value *val = nullptr;
@@ -242,7 +242,21 @@ Value* CminusfBuilder::visit(ASTReturnStmt &node) {
         // TODO: The given code is incomplete.
         // You need to solve other return cases (e.g. return an integer).
         Value *exp = node.expression->accept(*this);
-        builder->create_ret(exp);
+        Type *exp_type = exp->get_type();
+        Type *fun_type = nullptr;
+        fun_type = context.func->get_return_type();
+        if (fun_type->is_void_type()){
+            builder->create_void_ret();
+        } else {
+            if(fun_type != exp_type){
+                if(exp_type->is_float_type()){
+                    exp = builder->create_fptosi(exp, INT32_T);
+                } else if(exp_type->is_integer_type()){
+                    exp = builder->create_sitofp(exp, FLOAT_T);
+                }
+            }
+            builder->create_ret(exp);
+        }
         return nullptr;
     }
 }
@@ -284,6 +298,12 @@ Value* CminusfBuilder::visit(ASTSimpleExpression &node) {
     Value *exp2, *val = nullptr;
     exp2 = node.additive_expression_r->accept(*this);
     if(exp1->get_type()->is_integer_type() && exp2->get_type()->is_integer_type()){
+        if(exp1->get_type()->is_int1_type()){
+            exp1 = builder->create_zext(exp1, INT32_T);
+        }
+        if(exp2->get_type()->is_int1_type()){
+            exp2 = builder->create_zext(exp2, INT32_T);
+        }
         if(node.op == RelOp::OP_LE){
             val = builder->create_icmp_le(exp1, exp2);
         } else if(node.op == RelOp::OP_LT){
@@ -325,10 +345,13 @@ Value* CminusfBuilder::visit(ASTSimpleExpression &node) {
 Value* CminusfBuilder::visit(ASTAdditiveExpression &node) {
     // TODO: This function is empty now.
     // Add some code here.
-    Value *exp;
-    exp = node.additive_expression->accept(*this);
     Value *term;
     term = node.term->accept(*this);
+    Value *exp;
+    if(node.additive_expression == nullptr){
+        return term;
+    }
+    exp = node.additive_expression->accept(*this);
     Value *val = nullptr;
     if(exp->get_type()->is_integer_type() && term->get_type()->is_integer_type()){
         if(node.op == AddOp::OP_PLUS){
@@ -339,10 +362,10 @@ Value* CminusfBuilder::visit(ASTAdditiveExpression &node) {
     }
     else{
         if(term->get_type()->is_integer_type()){
-            exp = builder->create_sitofp(exp, FLOAT_T);
+            term = builder->create_sitofp(term, FLOAT_T);
         }
         if(exp->get_type()->is_integer_type()){
-            term = builder->create_sitofp(term, FLOAT_T);
+            exp = builder->create_sitofp(exp, FLOAT_T);
         }
         if(node.op == AddOp::OP_PLUS){
             val = builder->create_fadd(exp, term);
@@ -356,10 +379,13 @@ Value* CminusfBuilder::visit(ASTAdditiveExpression &node) {
 Value* CminusfBuilder::visit(ASTTerm &node) {
     // TODO: This function is empty now.
     // Add some code here.
-    Value *term;
-    term = node.term->accept(*this);
     Value *factor;
     factor = node.factor->accept(*this);
+    Value *term;
+    if(node.term == nullptr){
+        return factor;
+    }
+    term = node.term->accept(*this);
     Value *val = nullptr;
     if(term->get_type()->is_integer_type() && factor->get_type()->is_integer_type()){
         if(node.op == MulOp::OP_MUL){
@@ -370,10 +396,10 @@ Value* CminusfBuilder::visit(ASTTerm &node) {
     }
     else{
         if(term->get_type()->is_integer_type()){
-            factor = builder->create_sitofp(factor, FLOAT_T);
+            term = builder->create_sitofp(term, FLOAT_T);
         }
         if(factor->get_type()->is_integer_type()){
-            term = builder->create_sitofp(term, FLOAT_T);
+            factor = builder->create_sitofp(factor, FLOAT_T);
         }
         if(node.op == MulOp::OP_MUL){
             val = builder->create_fmul(term, factor);
@@ -396,9 +422,29 @@ Value* CminusfBuilder::visit(ASTCall &node) {
         throw std::runtime_error("Function call argument size mismatch for function: " + node.id);
     }
     std::vector<Value *> args_values;
+    std::vector<Value *> args_types;
+    for (auto &arg : f->get_args()) {
+        args_types.push_back(&arg); 
+    }
+    Value *arg_value = nullptr;
+    Type *arg_type = nullptr;
+    int i = 0;
     for (auto &arg : node.args) {
-        Value *arg_value = arg->accept(*this); 
+        arg_value = arg->accept(*this);
+        arg_type = args_types[i]->get_type();
+        if(arg_type != arg_value->get_type()){
+            if(arg_type->is_float_type()){
+                arg_value = builder->create_sitofp(arg_value, FLOAT_T);
+            } else if(arg_type->is_integer_type()){
+                if(arg_value->get_type()->is_float_type()){
+                    arg_value = builder->create_fptosi(arg_value, INT32_T);
+                } else if(arg_value->get_type()->is_int1_type()){
+                    arg_value = builder->create_zext(arg_value, INT32_T);
+                }
+            }
+        }
         args_values.push_back(arg_value);
+        i++;
     }
     Value *val;
     val = builder->create_call(f, args_values);
