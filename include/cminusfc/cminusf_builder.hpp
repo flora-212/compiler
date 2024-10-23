@@ -109,5 +109,6 @@ class CminusfBuilder : public ASTVisitor {
         // function that is being built
         Function *func = nullptr;
         // TODO: you should add more fields to store state
+        bool left = false; // 记录是否是左值（返回ptr）
     } context;
 };
