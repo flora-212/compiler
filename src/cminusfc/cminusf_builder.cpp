@@ -38,6 +38,7 @@ Value* CminusfBuilder::visit(ASTProgram &node) {
 Value* CminusfBuilder::visit(ASTNum &node) {
     // TODO: This function is empty now.
     // Add some code here.
+    LOG(INFO) << node.i_val;
     Value *val = nullptr;
     if(node.type == TYPE_INT){
         val = CONST_INT(node.i_val);
@@ -346,6 +347,7 @@ Value* CminusfBuilder::visit(ASTVar &node) {
 Value* CminusfBuilder::visit(ASTAssignExpression &node) {
     // TODO: This function is empty now.
     // Add some code here.
+    LOG(INFO) << "ASTAssignExpression";
     Value *var, *expr;
     context.left = true;
     var = node.var->accept(*this);
@@ -371,6 +373,7 @@ Value* CminusfBuilder::visit(ASTAssignExpression &node) {
         }
     }
     builder->create_store(expr, var);
+    LOG(INFO) << "ASTAssignExpression over";
     return expr;
 }
 
