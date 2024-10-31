@@ -107,7 +107,7 @@ ASTNode *AST::transform_node_iter(syntax_tree_node *n) {
         // 1.1 flatten params
 
         if (_STR_EQ(n->children[3]->children[0]->name, "void")) {
-            node->type = TYPE_VOID;
+            // node->type = TYPE_VOID;
         } else {
             std::stack<syntax_tree_node *> s;
             auto list_ptr = n->children[3]->children[0];
