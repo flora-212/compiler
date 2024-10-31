@@ -266,17 +266,12 @@ Value* CminusfBuilder::visit(ASTReturnStmt &node) {
         Type *exp_type = exp->get_type();
         Type *fun_type = nullptr;
         fun_type = context.func->get_return_type();
-        LOG(INFO) << "fun_type";
-        LOG(INFO) << fun_type->print();
-        LOG(INFO) << "exp_type";
-        LOG(INFO) << exp_type->print();
         if (fun_type->is_void_type()){
             builder->create_void_ret();
         } else {
             if(fun_type != exp_type){
                 if(exp_type->is_float_type()){
                     exp = builder->create_fptosi(exp, INT32_T);
-                    LOG(INFO) << exp->print();
                 } else if(exp_type->is_integer_type()){
                     exp = builder->create_sitofp(exp, FLOAT_T);
                 }
@@ -296,7 +291,6 @@ Value* CminusfBuilder::visit(ASTVar &node) {
         throw std::runtime_error("Undefined variable: " + node.id);
     }
     if(node.expression != nullptr){
-        LOG(INFO) << "ASTVar";
         Value *exp;
         Value *negidx = nullptr;
         bool t = context.left;
@@ -539,8 +533,6 @@ Value* CminusfBuilder::visit(ASTCall &node) {
                 }
             }
         }
-        LOG(INFO) << arg_value->get_type()->print();
-        LOG(INFO) << arg_type->print();
         args_values.push_back(arg_value);
         i++;
     }
