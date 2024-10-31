@@ -38,7 +38,6 @@ Value* CminusfBuilder::visit(ASTProgram &node) {
 Value* CminusfBuilder::visit(ASTNum &node) {
     // TODO: This function is empty now.
     // Add some code here.
-    LOG(INFO) << node.i_val;
     Value *val = nullptr;
     if(node.type == TYPE_INT){
         val = CONST_INT(node.i_val);
@@ -46,14 +45,13 @@ Value* CminusfBuilder::visit(ASTNum &node) {
     else if(node.type == TYPE_FLOAT){
         val = CONST_FP(node.f_val);
     }
-    LOG(INFO) << "ASTNum over";
+    LOG(INFO) << val->print();
     return val;
 }
 
 Value* CminusfBuilder::visit(ASTVarDeclaration &node) {
     // TODO: This function is empty now.
     // Add some code here.
-    LOG(INFO) << node.id;
     Type *type_specifier = nullptr;
     if(node.type == TYPE_INT){
         type_specifier = INT32_T;
@@ -86,7 +84,7 @@ Value* CminusfBuilder::visit(ASTVarDeclaration &node) {
 }
 
 Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
-    LOG(INFO) << node.id;
+    LOG(INFO) << "start fun declaration";
     FunctionType *fun_type;
     Type *ret_type;
     std::vector<Type *> param_types;
@@ -96,7 +94,7 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
         ret_type = FLOAT_T;
     else
         ret_type = VOID_T;
-
+    LOG(INFO) << ret_type->print();
     for (auto &param : node.params) {
         // TODO: Please accomplish param_types.
         if (param->isarray == 1){
@@ -131,9 +129,9 @@ Value* CminusfBuilder::visit(ASTFunDeclaration &node) {
         auto param = node.params[i];
         Value *val = nullptr;
         if(param->isarray){
-            if(param_types[i]->is_integer_type()){
+            if(param_types[i]->get_pointer_element_type()->is_integer_type()){
                 val = builder->create_alloca(INT32PTR_T);
-            } else if(param_types[i]->is_float_type()){
+            } else if(param_types[i]->get_pointer_element_type()->is_float_type()){
                 val = builder->create_alloca(FLOATPTR_T);
             }
             Value *n = nullptr;
@@ -213,12 +211,16 @@ Value* CminusfBuilder::visit(ASTSelectionStmt &node) {
     builder->create_cond_br(cond, ifbb, elsebb);
     builder->set_insert_point(ifbb);
     node.if_statement->accept(*this);
-    builder->create_br(retbb);
+    if(!builder->get_insert_block()->is_terminated()){
+        builder->create_br(retbb);
+    }
     builder->set_insert_point(elsebb);
     if(node.else_statement != nullptr){
         node.else_statement->accept(*this);
     }
-    builder->create_br(retbb);
+    if(!builder->get_insert_block()->is_terminated()){
+        builder->create_br(retbb);
+    }
     builder->set_insert_point(retbb);
     return nullptr;
 }
@@ -258,12 +260,17 @@ Value* CminusfBuilder::visit(ASTReturnStmt &node) {
         Type *exp_type = exp->get_type();
         Type *fun_type = nullptr;
         fun_type = context.func->get_return_type();
+        LOG(INFO) << "fun_type";
+        LOG(INFO) << fun_type->print();
+        LOG(INFO) << "exp_type";
+        LOG(INFO) << exp_type->print();
         if (fun_type->is_void_type()){
             builder->create_void_ret();
         } else {
             if(fun_type != exp_type){
                 if(exp_type->is_float_type()){
                     exp = builder->create_fptosi(exp, INT32_T);
+                    LOG(INFO) << exp->print();
                 } else if(exp_type->is_integer_type()){
                     exp = builder->create_sitofp(exp, FLOAT_T);
                 }
@@ -277,13 +284,13 @@ Value* CminusfBuilder::visit(ASTReturnStmt &node) {
 Value* CminusfBuilder::visit(ASTVar &node) {
     // TODO: This function is empty now.
     // Add some code here.
-    LOG(INFO) << node.id;
     Value *varloc = nullptr, *val = nullptr;
     varloc = scope.find(node.id);
     if(varloc == nullptr){
         throw std::runtime_error("Undefined variable: " + node.id);
     }
     if(node.expression != nullptr){
+        LOG(INFO) << "ASTVar";
         Value *exp;
         Value *negidx = nullptr;
         exp = node.expression->accept(*this);
@@ -302,22 +309,41 @@ Value* CminusfBuilder::visit(ASTVar &node) {
         builder->create_call(except, {});
         builder->create_br(nonnegbb);
         builder->set_insert_point(nonnegbb);
-        varloc = builder->create_gep(varloc, {CONST_INT(0), exp});
+        if(varloc->get_type()->get_pointer_element_type()->is_array_type()){
+            varloc = builder->create_gep(varloc, {CONST_INT(0), exp});
+        }
+        else{
+            varloc = builder->create_gep(varloc, {exp});
+        }
+        if(context.left == true){
+            return varloc;
+        }
+        else{
+            val = builder->create_load(varloc);
+            return val;
+        }
     }
-    val = builder->create_load(varloc);
-    LOG(INFO) << "ASTVar over";
-    if(context.left == true){
-        return varloc;
-    }
-    else{
-        return val;
+    else {
+        if(varloc->get_type()->get_pointer_element_type()->is_array_type()){
+            varloc = builder->create_gep(varloc, {CONST_INT(0)});
+            varloc = builder->create_gep(varloc, {CONST_INT(0), CONST_INT(0)});
+            return varloc;
+        }
+        else{
+            if(context.left == true){
+                return varloc;
+            }
+            else{
+                val = builder->create_load(varloc);
+                return val;
+            }
+        }
     }
 }
 
 Value* CminusfBuilder::visit(ASTAssignExpression &node) {
     // TODO: This function is empty now.
     // Add some code here.
-    LOG(INFO) << "ASTAssignExpression";
     Value *var, *expr;
     context.left = true;
     var = node.var->accept(*this);
@@ -343,7 +369,6 @@ Value* CminusfBuilder::visit(ASTAssignExpression &node) {
         }
     }
     builder->create_store(expr, var);
-    LOG(INFO) << "ASTAssignExpression over";
     return expr;
 }
 
@@ -472,8 +497,6 @@ Value* CminusfBuilder::visit(ASTTerm &node) {
 
 Value* CminusfBuilder::visit(ASTCall &node) {
     // TODO: This function is empty now.
-    // Add some code here.
-    LOG(INFO) << node.id;
     auto *f = dynamic_cast<Function*>(scope.find(node.id));
     if (f == nullptr) {
         throw std::runtime_error("Function not found: " + node.id);
@@ -490,8 +513,13 @@ Value* CminusfBuilder::visit(ASTCall &node) {
     Type *arg_type = nullptr;
     int i = 0;
     for (auto &arg : node.args) {
-        arg_value = arg->accept(*this);
+        LOG(INFO) << "ASTCall";
         arg_type = args_types[i];
+        if(arg_type->is_pointer_type()){
+            context.left = true;
+        }
+        arg_value = arg->accept(*this);
+        context.left = false;
         if(arg_type != arg_value->get_type()){
             if(arg_type->is_float_type()){
                 arg_value = builder->create_sitofp(arg_value, FLOAT_T);
@@ -503,6 +531,8 @@ Value* CminusfBuilder::visit(ASTCall &node) {
                 }
             }
         }
+        LOG(INFO) << arg_value->get_type()->print();
+        LOG(INFO) << arg_type->print();
         args_values.push_back(arg_value);
         i++;
     }
