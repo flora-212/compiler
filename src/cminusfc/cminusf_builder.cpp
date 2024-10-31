@@ -246,8 +246,9 @@ Value* CminusfBuilder::visit(ASTIterationStmt &node) {
     builder->create_cond_br(exp, iterbb, retbb);
     builder->set_insert_point(iterbb);
     node.statement->accept(*this);
+    LOG(INFO) << condbb->print();
     if(not builder->get_insert_block()->is_terminated()){
-        // LOG(INFO) << condbb->print();
+        LOG(INFO) << condbb->print();
         builder->create_br(condbb);
     }
     builder->set_insert_point(retbb);
@@ -292,7 +293,10 @@ Value* CminusfBuilder::visit(ASTVar &node) {
     if(node.expression != nullptr){
         Value *exp;
         Value *negidx = nullptr;
+        bool t = context.left;
+        context.left = false;
         exp = node.expression->accept(*this);
+        context.left = t;
         if(exp->get_type()->is_float_type()){
             exp = builder->create_fptosi(exp, INT32_T);
         } else if(exp->get_type()->is_int1_type()){
