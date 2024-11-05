@@ -328,7 +328,6 @@ Value* CminusfBuilder::visit(ASTVar &node) {
     }
     else {
         if(varloc->get_type()->get_pointer_element_type()->is_array_type()){
-            varloc = builder->create_gep(varloc, {CONST_INT(0)});
             varloc = builder->create_gep(varloc, {CONST_INT(0), CONST_INT(0)});
             return varloc;
         }
