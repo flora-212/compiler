@@ -143,7 +143,7 @@ main:
 	addi.w $t1, $zero, 0
 	addi.w $t2, $zero, 0
 	sub.d $t1, $t2, $t1
-	addi.d $t2, $zero, 4
+	addi.d $t2, $zero, 40
 	mul.w $t3, $t2, $t1
 	add.d $t4, $t3, $t0
 	st.d $t4, $fp, -106
@@ -251,7 +251,7 @@ main:
 	addi.w $t1, $zero, 0
 	ld.w $t2, $fp, -144
 	sub.d $t1, $t2, $t1
-	addi.d $t2, $zero, 4
+	addi.d $t2, $zero, 40
 	mul.w $t3, $t2, $t1
 	add.d $t4, $t3, $t0
 	st.d $t4, $fp, -157

@@ -8,14 +8,17 @@ main:
 	addi.d $sp, $sp, -80
 .main_label_entry:
 # %op0 = alloca i32
-	addi.d $t0, $fp, -28
-	st.d $t0, $fp, -24
+	addi.d $t0, $fp, -24
+	addi.d $t1, $t0,-4
+	st.d $t1, $fp, -24
 # %op1 = alloca i32
-	addi.d $t0, $fp, -40
-	st.d $t0, $fp, -36
+	addi.d $t0, $fp, -36
+	addi.d $t1, $t0,-4
+	st.d $t1, $fp, -36
 # %op2 = alloca i32
-	addi.d $t0, $fp, -52
-	st.d $t0, $fp, -48
+	addi.d $t0, $fp, -48
+	addi.d $t1, $t0,-4
+	st.d $t1, $fp, -48
 # store i32 23, i32* %op0
 	ld.d $t0, $fp, -24
 	addi.w $t1, $zero, 23
@@ -28,26 +31,26 @@ main:
 	ld.d $t0, $fp, -48
 	addi.w $t1, $zero, 4
 	st.w $t1, $t0, 0
-# %op3 = load i32, i32* %op0
-	ld.d $t0, $fp, -24
-	ld.w $t0, $t0, 0
-	st.w $t0, $fp, -56
+# %op3 = load i32, i32* %op2
+	ld.d $t0, $fp, -48
+	ld.w $t1, $t0, 0
+	st.w $t1, $fp, -56
 # %op4 = load i32, i32* %op1
 	ld.d $t0, $fp, -36
-	ld.w $t0, $t0, 0
-	st.w $t0, $fp, -60
-# %op5 = load i32, i32* %op2
-	ld.d $t0, $fp, -48
-	ld.w $t0, $t0, 0
-	st.w $t0, $fp, -64
-# %op6 = mul i32 %op4, %op5
+	ld.w $t1, $t0, 0
+	st.w $t1, $fp, -60
+# %op5 = mul i32 %op4, %op3
 	ld.w $t0, $fp, -60
-	ld.w $t1, $fp, -64
+	ld.w $t1, $fp, -56
 	mul.w $t2, $t0, $t1
-	st.w $t2, $fp, -68
-# %op7 = add i32 %op3, %op6
-	ld.w $t0, $fp, -56
-	ld.w $t1, $fp, -68
+	st.w $t2, $fp, -64
+# %op6 = load i32, i32* %op0
+	ld.d $t0, $fp, -24
+	ld.w $t1, $t0, 0
+	st.w $t1, $fp, -68
+# %op7 = add i32 %op6, %op5
+	ld.w $t0, $fp, -68
+	ld.w $t1, $fp, -64
 	add.w $t2, $t0, $t1
 	st.w $t2, $fp, -72
 # ret i32 %op7
@@ -55,6 +58,6 @@ main:
 	b main_exit
 main_exit:
 	addi.d $sp, $sp, 80
-	ld.d $ra, $sp, -8
 	ld.d $fp, $sp, -16
+	ld.d $ra, $sp, -8
 	jr $ra

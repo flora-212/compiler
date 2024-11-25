@@ -8,14 +8,17 @@ main:
 	addi.d $sp, $sp, -80
 .main_label_entry:
 # %op0 = alloca float
-	addi.d $t0, $fp, -28
-	st.d $t0, $fp, -24
+	addi.d $t0, $fp, -24
+	addi.d $t1, $t0,-4
+	st.d $t1, $fp, -24
 # %op1 = alloca float
-	addi.d $t0, $fp, -40
-	st.d $t0, $fp, -36
+	addi.d $t0, $fp, -36
+	addi.d $t1, $t0,-4
+	st.d $t1, $fp, -36
 # %op2 = alloca float
-	addi.d $t0, $fp, -52
-	st.d $t0, $fp, -48
+	addi.d $t0, $fp, -48
+	addi.d $t1, $t0,-4
+	st.d $t1, $fp, -48
 # store float 0x3ff19999a0000000, float* %op0
 	ld.d $t0, $fp, -24
 	lu12i.w $t8, 260300
@@ -34,26 +37,26 @@ main:
 	ori $t8, $t8, 2458
 	movgr2fr.w $ft0, $t8
 	fst.s $ft0, $t0, 0
-# %op3 = load float, float* %op0
-	ld.d $t0, $fp, -24
+# %op3 = load float, float* %op2
+	ld.d $t0, $fp, -48
 	fld.s $ft0, $t0, 0
 	fst.s $ft0, $fp, -56
 # %op4 = load float, float* %op1
 	ld.d $t0, $fp, -36
 	fld.s $ft0, $t0, 0
 	fst.s $ft0, $fp, -60
-# %op5 = fmul float %op3, %op4
-	fld.s $ft0, $fp, -56
+# %op5 = load float, float* %op0
+	ld.d $t0, $fp, -24
+	fld.s $ft0, $t0, 0
+	fst.s $ft0, $fp, -64
+# %op6 = fmul float %op5, %op4
+	fld.s $ft0, $fp, -64
 	fld.s $ft1, $fp, -60
 	fmul.s $ft2, $ft0, $ft1
-	fst.s $ft2, $fp, -64
-# %op6 = load float, float* %op2
-	ld.d $t0, $fp, -48
-	fld.s $ft0, $t0, 0
-	fst.s $ft0, $fp, -68
-# %op7 = fadd float %op5, %op6
-	fld.s $ft0, $fp, -64
-	fld.s $ft1, $fp, -68
+	fst.s $ft2, $fp, -68
+# %op7 = fadd float %op6, %op3
+	fld.s $ft0, $fp, -68
+	fld.s $ft1, $fp, -56
 	fadd.s $ft2, $ft0, $ft1
 	fst.s $ft2, $fp, -72
 # call void @outputFloat(float %op7)
@@ -64,6 +67,6 @@ main:
 	b main_exit
 main_exit:
 	addi.d $sp, $sp, 80
-	ld.d $ra, $sp, -8
 	ld.d $fp, $sp, -16
+	ld.d $ra, $sp, -8
 	jr $ra

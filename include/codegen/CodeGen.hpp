@@ -15,6 +15,7 @@ class CodeGen {
     template <class... Args> void append_inst(Args... arg) {
         output.emplace_back(arg...);
     }
+    
 
     void
     append_inst(const char *inst, std::initializer_list<std::string> args,

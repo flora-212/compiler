@@ -19,6 +19,6 @@ main:
 	b main_exit
 main_exit:
 	addi.d $sp, $sp, 16
-	ld.d $ra, $sp, -8
 	ld.d $fp, $sp, -16
+	ld.d $ra, $sp, -8
 	jr $ra
