@@ -38,7 +38,7 @@ min:
 	ld.w $t1, $fp, -56
 	slt $t2, $t0, $t1
 	xor $t3, $t0, $t1
-	sltu $t3, $zero, $t3
+	sltu $t3, $zero, $t2
 	xori $t3, $t3, 1
 	or $t2, $t3, $t2
 	st.b $t2, $fp, -57
