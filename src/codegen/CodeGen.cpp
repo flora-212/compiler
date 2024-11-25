@@ -350,7 +350,13 @@ void CodeGen::gen_load() {
     } else {
         // TODO load 整数类型的数据
         // throw not_implemented_error{__FUNCTION__};
-        append_inst("ld.w $t1, $t0, 0");
+        if (type->is_int1_type()) {
+            append_inst("ld.b $t1, $t0, 0");
+        } else if (type->is_int32_type()) {
+            append_inst("ld.w $t1, $t0, 0");
+        } else {
+            append_inst("ld.d $t1, $t0, 0");
+        }
         store_from_greg(context.inst, Reg::t(1));
     }
 }
@@ -367,7 +373,13 @@ void CodeGen::gen_store() {
         append_inst("fst.s $ft0, $t0, 0");
     } else {
         load_to_greg(val, Reg::t(1));
-        append_inst("st.w $t1, $t0, 0");
+        if(type->is_int1_type()){
+            append_inst("st.w $t1, $t0, 0");
+        } else if (type->is_int32_type()) {
+            append_inst("st.w $t1, $t0, 0");
+        } else {
+            append_inst("st.d $t1, $t0, 0");
+        }
     }
 }
 

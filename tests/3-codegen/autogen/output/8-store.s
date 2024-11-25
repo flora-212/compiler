@@ -17,10 +17,10 @@ store:
 # store i32* %arg0, i32** %op3
 	ld.d $t0, $fp, -40
 	ld.d $t1, $fp, -24
-	st.w $t1, $t0, 0
+	st.d $t1, $t0, 0
 # %op4 = load i32*, i32** %op3
 	ld.d $t0, $fp, -40
-	ld.w $t1, $t0, 0
+	ld.d $t1, $t0, 0
 	st.d $t1, $fp, -56
 # %op5 = alloca i32
 	addi.d $t0, $fp, -64
