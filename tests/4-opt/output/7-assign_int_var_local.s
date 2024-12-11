@@ -7,8 +7,8 @@ main:
 	addi.d $fp, $sp, 0
 	addi.d $sp, $sp, -16
 .main_label_entry:
-# ret void
-	add.w $a0, $zero, $zero
+# ret i32 1234
+	addi.w $a0, $zero, 1234
 	b main_exit
 main_exit:
 	addi.d $sp, $sp, 16

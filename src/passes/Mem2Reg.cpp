@@ -116,6 +116,9 @@ void Mem2Reg::rename(BasicBlock *bb) {
     for (auto &instr : bb->get_instructions()) {
         if (instr.is_load()) {
             auto l_val = static_cast<LoadInst *>(&instr)->get_lval();
+            if (!is_valid_ptr(l_val)){
+                continue;
+            }
             if (!is_global_variable(l_val) && !is_gep_instr(l_val)){
                 if (var_val_stack.find(l_val) != var_val_stack.end()){
                     instr.replace_all_use_with(var_val_stack[l_val].back());
@@ -127,6 +130,9 @@ void Mem2Reg::rename(BasicBlock *bb) {
         // 步骤三：将 store 指令的 rval，也即被存入内存的值，作为 lval 的最新定值
         if (instr.is_store()) {
             auto l_val = static_cast<StoreInst *>(&instr)->get_lval();
+            if (!is_valid_ptr(l_val)){
+                continue;
+            }
             auto r_val = static_cast<StoreInst *>(&instr)->get_rval();
             if (!is_global_variable(l_val) && !is_gep_instr(l_val)){
                 var_val_stack[l_val].push_back(r_val);
@@ -140,7 +146,7 @@ void Mem2Reg::rename(BasicBlock *bb) {
         for (auto &instr : succ->get_instructions()) {
             if (instr.is_phi()) {
                 auto l_val = phi_lval[static_cast<PhiInst *>(&instr)];
-                if (var_val_stack.find(l_val) != var_val_stack.end()){
+                if (!var_val_stack[l_val].empty()){
                     static_cast<PhiInst *>(&instr)->add_phi_pair_operand(var_val_stack[l_val].back(), bb);
                 }
             }
@@ -154,11 +160,17 @@ void Mem2Reg::rename(BasicBlock *bb) {
     for(auto &instr : bb->get_instructions()){
         if(instr.is_store()){
             auto l_val = static_cast<StoreInst *>(&instr)->get_lval();
+            if (!is_valid_ptr(l_val)){
+                continue;
+            }
             if (!is_global_variable(l_val) && !is_gep_instr(l_val)){
                 var_val_stack[l_val].pop_back();
             }
         } else if(instr.is_phi()){
             auto l_val = phi_lval[static_cast<PhiInst *>(&instr)];
+            if (!is_valid_ptr(l_val)){
+                continue;
+            }
             if (var_val_stack.find(l_val) != var_val_stack.end()){
                 var_val_stack[l_val].pop_back();
             }
