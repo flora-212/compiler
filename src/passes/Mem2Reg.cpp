@@ -119,11 +119,9 @@ void Mem2Reg::rename(BasicBlock *bb) {
             if (!is_valid_ptr(l_val)){
                 continue;
             }
-            if (!is_global_variable(l_val) && !is_gep_instr(l_val)){
-                if (var_val_stack.find(l_val) != var_val_stack.end()){
-                    instr.replace_all_use_with(var_val_stack[l_val].back());
-                    wait_delete.push_back(&instr);
-                }
+            if (var_val_stack.find(l_val) != var_val_stack.end()){
+                instr.replace_all_use_with(var_val_stack[l_val].back());
+                wait_delete.push_back(&instr);
             }
             
         }
@@ -134,11 +132,8 @@ void Mem2Reg::rename(BasicBlock *bb) {
                 continue;
             }
             auto r_val = static_cast<StoreInst *>(&instr)->get_rval();
-            if (!is_global_variable(l_val) && !is_gep_instr(l_val)){
-                var_val_stack[l_val].push_back(r_val);
-                wait_delete.push_back(&instr);
-            }
-            
+            var_val_stack[l_val].push_back(r_val);
+            wait_delete.push_back(&instr);
         }
     }
     // 步骤四：为 lval 对应的 phi 指令参数补充完整
@@ -163,9 +158,7 @@ void Mem2Reg::rename(BasicBlock *bb) {
             if (!is_valid_ptr(l_val)){
                 continue;
             }
-            if (!is_global_variable(l_val) && !is_gep_instr(l_val)){
-                var_val_stack[l_val].pop_back();
-            }
+            var_val_stack[l_val].pop_back();
         } else if(instr.is_phi()){
             auto l_val = phi_lval[static_cast<PhiInst *>(&instr)];
             if (!is_valid_ptr(l_val)){
