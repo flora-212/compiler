@@ -106,12 +106,64 @@ void Mem2Reg::rename(BasicBlock *bb) {
     std::vector<Instruction *> wait_delete;
     // TODO
     // 步骤一：将 phi 指令作为 lval 的最新定值，lval 即是为局部变量 alloca 出的地址空间
+    for (auto &instr : bb->get_instructions()){
+        if (instr.is_phi()){
+            auto l_val = phi_lval[static_cast<PhiInst *>(&instr)];
+            var_val_stack[l_val].push_back(&instr);
+        }
+    }
     // 步骤二：用 lval 最新的定值替代对应的load指令
-    // 步骤三：将 store 指令的 rval，也即被存入内存的值，作为 lval 的最新定值
+    for (auto &instr : bb->get_instructions()) {
+        if (instr.is_load()) {
+            auto l_val = static_cast<LoadInst *>(&instr)->get_lval();
+            if (!is_global_variable(l_val) && !is_gep_instr(l_val)){
+                if (var_val_stack.find(l_val) != var_val_stack.end()){
+                    instr.replace_all_use_with(var_val_stack[l_val].back());
+                    wait_delete.push_back(&instr);
+                }
+            }
+            
+        }
+        // 步骤三：将 store 指令的 rval，也即被存入内存的值，作为 lval 的最新定值
+        if (instr.is_store()) {
+            auto l_val = static_cast<StoreInst *>(&instr)->get_lval();
+            auto r_val = static_cast<StoreInst *>(&instr)->get_rval();
+            if (!is_global_variable(l_val) && !is_gep_instr(l_val)){
+                var_val_stack[l_val].push_back(r_val);
+                wait_delete.push_back(&instr);
+            }
+            
+        }
+    }
     // 步骤四：为 lval 对应的 phi 指令参数补充完整
+    for (auto succ : bb->get_succ_basic_blocks()){
+        for (auto &instr : succ->get_instructions()) {
+            if (instr.is_phi()) {
+                auto l_val = phi_lval[static_cast<PhiInst *>(&instr)];
+                if (var_val_stack.find(l_val) != var_val_stack.end()){
+                    static_cast<PhiInst *>(&instr)->add_phi_pair_operand(var_val_stack[l_val].back(), bb);
+                }
+            }
+    }
+    }
     // 步骤五：对 bb 在支配树上的所有后继节点，递归执行 re_name 操作
+    for(auto &succ : dominators_->get_dom_tree_succ_blocks(bb)){
+        rename(succ);
+    }
     // 步骤六：pop出 lval 的最新定值
-    
+    for(auto &instr : bb->get_instructions()){
+        if(instr.is_store()){
+            auto l_val = static_cast<StoreInst *>(&instr)->get_lval();
+            if (!is_global_variable(l_val) && !is_gep_instr(l_val)){
+                var_val_stack[l_val].pop_back();
+            }
+        } else if(instr.is_phi()){
+            auto l_val = phi_lval[static_cast<PhiInst *>(&instr)];
+            if (var_val_stack.find(l_val) != var_val_stack.end()){
+                var_val_stack[l_val].pop_back();
+            }
+        }
+    } 
     // 步骤七：清除冗余的指令
     for (auto instr : wait_delete) {
         bb->erase_instr(instr);

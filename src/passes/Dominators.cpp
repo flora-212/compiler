@@ -107,7 +107,33 @@ void Dominators::dfs(BasicBlock *bb, std::set<BasicBlock *> &visited) {
  */
 void Dominators::create_idom(Function *f) {
     // TODO 分析得到 f 中各个基本块的 idom
-    throw "Unimplemented create_idom";
+    // throw "Unimplemented create_idom";
+    for (auto &bb : f->get_basic_blocks()){
+        set_idom(&bb, nullptr);
+    }
+    bool changed = true;
+    while(changed){
+        changed = false;
+        for (auto bb1 = post_order_vec_.rbegin(); bb1 != post_order_vec_.rend(); ++bb1){
+            auto bb = *bb1;
+            if(bb == f->get_entry_block()){
+                set_idom(bb, bb);
+                continue;
+            }
+            BasicBlock* new_idom = nullptr;
+            for (auto p : bb->get_pre_basic_blocks()){
+                if(new_idom == nullptr){
+                    new_idom = p;
+                } else if(get_idom(p) != nullptr){
+                    new_idom = intersect(p, new_idom);
+                }
+            }
+            if (get_idom(bb) != new_idom){
+                set_idom(bb, new_idom);
+                changed = true;
+            }
+        }
+    }
 }
 
 /**
@@ -120,8 +146,19 @@ void Dominators::create_idom(Function *f) {
  */
 void Dominators::create_dominance_frontier(Function *f) {
     // TODO 分析得到 f 中各个基本块的支配边界集合
-    throw "Unimplemented create_dominance_frontier";
-
+    // throw "Unimplemented create_dominance_frontier";
+    for (auto &bb : f->get_basic_blocks()){
+        std::set<BasicBlock*> bbSet;
+        if (bb.get_pre_basic_blocks().size() >= 2){
+            for (auto p : bb.get_pre_basic_blocks()){
+                auto runner = p;
+                while (runner != get_idom(&bb)){
+                    dom_frontier_[runner].insert(&bb);
+                    runner = get_idom(runner);
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -133,7 +170,16 @@ void Dominators::create_dominance_frontier(Function *f) {
  */
 void Dominators::create_dom_tree_succ(Function *f) {
     // TODO 分析得到 f 中各个基本块的支配树后继
-    throw "Unimplemented create_dom_tree_succ";
+    // throw "Unimplemented create_dom_tree_succ";
+    for (auto &bb : f->get_basic_blocks()){
+        auto dom = get_idom(&bb);
+        if (dom == nullptr){
+            continue;
+        }
+        if (dom != &bb){
+            add_dom_tree_succ_block(dom, &bb);
+        }
+    }
 }
 
 /**
