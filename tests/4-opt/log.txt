@@ -1,83 +1,56 @@
-==========./testcases/functional-cases/0-io.cminus==========
-1234								1234
-0								0
-==========./testcases/functional-cases/1-return.cminus==========
-111								111
-111								111
-==========./testcases/functional-cases/2-calculate.cminus==========
-123								123
-==========./testcases/functional-cases/3-output.cminus==========
-11								11
-22222								22222
-0								0
-==========./testcases/functional-cases/4-if.cminus==========
-33								33
-0								0
-==========./testcases/functional-cases/5-while.cminus==========
-0								0
-1								1
-2								2
-3								3
-4								4
-5								5
-6								6
-7								7
-8								8
-9								9
-0								0
-==========./testcases/functional-cases/6-array.cminus==========
-11								11
-22								22
-33								33
-0								0
-==========./testcases/functional-cases/7-function.cminus==========
-11								11
-22								22
-11								11
-0								0
-==========./testcases/functional-cases/8-store.cminus==========
-90								90
-0								0
-==========./testcases/functional-cases/9-fibonacci.cminus==========
-0								0
-1								1
-1								1
-2								2
-3								3
-5								5
-8								8
-13								13
-21								21
-34								34
-0								0
-==========./testcases/functional-cases/10-float.cminus==========
-2.850000							2.850000
-0								0
-==========./testcases/functional-cases/11-floatcall.cminus==========
-0.200000							0.200000
-0								0
-==========./testcases/functional-cases/12-global.cminus==========
-4								4
-2								2
-2								2
-4								4
-8								8
-2								2
-2								2
-2								2
-2								2
-2								2
-6								6
-2								2
-10								10
-8								8
-4								4
-2								2
-20								20
-2								2
-2								2
-8								8
-0								0
-==========./testcases/functional-cases/13-complex.cminus==========
-15								15
-0								0
+==========./testcases/loop/loop-1.cminus==========
+Loop Detection Result:
+Loop header: label8
+Loop blocks: label8 label14 
+Sub loops: 
+Loop header: label0
+Loop blocks: label0 label35 
+Sub loops: 
+==========./testcases/loop/loop-2.cminus==========
+Loop Detection Result:
+Loop header: label8
+Loop blocks: label8 label14 
+Sub loops: 
+Loop header: label0
+Loop blocks: label0 label35 
+Sub loops: 
+==========./testcases/loop/loop-3.cminus==========
+Loop Detection Result:
+Loop header: label44
+Loop blocks: label44 label50 
+Sub loops: 
+Loop header: label35
+Loop blocks: label35 label71 
+Sub loops: 
+Loop header: label26
+Loop blocks: label26 label42 
+Sub loops: 
+Loop header: label17
+Loop blocks: label17 label33 
+Sub loops: 
+Loop header: label8
+Loop blocks: label8 label24 
+Sub loops: 
+Loop header: label0
+Loop blocks: label0 label15 
+Sub loops: 
+==========./testcases/loop/loop-4.cminus==========
+Loop Detection Result:
+Loop header: label47
+Loop blocks: label47 label61 label60 label54 label58 
+Sub loops: 
+Loop header: label37
+Loop blocks: label37 label56 
+Sub loops: 
+Loop header: label27
+Loop blocks: label27 label45 
+Sub loops: 
+Loop header: label17
+Loop blocks: label17 label35 
+Sub loops: 
+Loop header: label8
+Loop blocks: label8 label25 
+Sub loops: 
+Loop header: label0
+Loop blocks: label0 label15 
+Sub loops: 

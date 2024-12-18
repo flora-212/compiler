@@ -55,7 +55,25 @@ void LoopInvariantCodeMotion::collect_loop_info(
     std::set<Value *> &updated_global,
     bool &contains_impure_call) {
     
-    throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
+    // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
+    for (auto &bb : loop->get_blocks()){
+        for (auto &inst : bb->get_instructions()){
+            loop_instructions.insert(&inst);
+            if (auto *store_inst = dynamic_cast<StoreInst*>(&inst)){
+                if(auto *global_var = dynamic_cast<GlobalVariable*>(store_inst->get_lval())){
+                    updated_global.insert(global_var);
+                }
+            }
+            if (auto *call_inst = dynamic_cast<CallInst*>(&inst)){
+                if (!func_info_->is_pure_function(dynamic_cast<Function*>(call_inst->get_operand(0)))){
+                    contains_impure_call = true;
+                }
+            }
+        }
+    }
+    for (auto &sub_loop : loop->get_sub_loops()) {
+        collect_loop_info(sub_loop, loop_instructions, updated_global, contains_impure_call);
+    }
 }
 
 /**
@@ -84,7 +102,24 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
     do {
         changed = false;
 
-        throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
+        // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
+        for (auto *value : loop_invariant){
+            auto *inst = dynamic_cast<Instruction*>(value);
+            if(inst->is_store() || inst->is_ret() || inst->is_br() || inst->is_phi() || contains_impure_call){
+                continue;
+            }
+            bool is_invariant = true;
+            for (auto *operand : inst->get_operands()){
+                if (loop_instructions.find(operand) != loop_instructions.end()){
+                    is_invariant = false;
+                    break;
+                }
+            }
+            if (is_invariant) {
+                loop_invariant.push_back(inst);
+                changed = true;
+            }
+        }
 
     } while (changed);
 
@@ -104,7 +139,11 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
         if (phi_inst_.get_instr_type() != Instruction::phi)
             break;
         
-        throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
+        // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
+        auto *phi_inst = dynamic_cast<PhiInst*>(&phi_inst_);
+        for (auto &invariant : loop_invariant){
+            phi_inst->add_phi_pair_operand(invariant, preheader);
+        }
     }
 
     // TODO: 用跳转指令重构控制流图 
@@ -113,7 +152,12 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
     // 注意这里需要更新前驱块的后继和后继的前驱
     std::vector<BasicBlock *> pred_to_remove;
     for (auto &pred : loop->get_header()->get_pre_basic_blocks()) {
-        throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
+        // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
+        if((loop->get_latches()).find(pred) == (loop->get_latches()).end()){
+            pred->erase_from_parent();
+            pred->add_pre_basic_block(preheader);
+            preheader->add_succ_basic_block(pred);
+        }
     }
 
     for (auto &pred : pred_to_remove) {
@@ -121,7 +165,11 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
     }
 
     // TODO: 外提循环不变指令
-    throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
+    // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
+    for (auto *value : loop_invariant) {
+        auto *inst = dynamic_cast<Instruction*>(value);
+        preheader->add_instruction(inst);
+    }
 
     // insert preheader br to header
     BranchInst::create_br(loop->get_header(), preheader);

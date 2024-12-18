@@ -51,8 +51,13 @@ void LoopDetection::discover_loop_and_sub_loops(BasicBlock *bb, BBset &latches,
              * 2. 更新bb_to_loop_映射
              * 3. 将bb的所有前驱加入工作表
              */
-        throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
-        
+            
+        // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
+            loop->add_block(bb);
+            bb_to_loop_[bb] = loop;
+            for (auto &pred : bb->get_pre_basic_blocks()){
+                work_list.push_back(pred);
+            }
         }
         // TODO-2: 处理已属于其他循环的节点
         else if (bb_to_loop_[bb] != loop) {
@@ -67,8 +72,18 @@ void LoopDetection::discover_loop_and_sub_loops(BasicBlock *bb, BBset &latches,
              * 6. 将子循环header的前驱加入工作表
              */
 
-        throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
-
+        // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
+            std::shared_ptr<Loop> sub_loop = bb_to_loop_[bb];
+            std::shared_ptr<Loop> par_loop = sub_loop->get_parent();
+            if(par_loop){
+                par_loop->add_sub_loop(sub_loop);
+                for (auto &sub_bb : sub_loop->get_blocks()){
+                    loop->add_block(sub_bb);
+                }
+                for (auto &pred : sub_loop->get_header()->get_pre_basic_blocks()){
+                    work_list.push_back(pred);
+                }
+            }
         }
     }
 }
