@@ -74,11 +74,16 @@ void LoopDetection::discover_loop_and_sub_loops(BasicBlock *bb, BBset &latches,
 
         // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
             std::shared_ptr<Loop> sub_loop = bb_to_loop_[bb];
-            std::shared_ptr<Loop> par_loop = sub_loop->get_parent();
-            if(par_loop){
-                par_loop->add_sub_loop(sub_loop);
-                for (auto &sub_bb : sub_loop->get_blocks()){
+            std::shared_ptr<Loop> par_loop = sub_loop;
+            while(par_loop->get_parent() != nullptr){
+                par_loop = par_loop->get_parent();
+            }
+            if(par_loop != loop){
+                par_loop->set_parent(loop);
+                loop->add_sub_loop(par_loop);
+                for (auto &sub_bb : par_loop->get_blocks()){
                     loop->add_block(sub_bb);
+                    bb_to_loop_[sub_bb] = loop;
                 }
                 for (auto &pred : sub_loop->get_header()->get_pre_basic_blocks()){
                     work_list.push_back(pred);

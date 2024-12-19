@@ -61,7 +61,7 @@ void LoopInvariantCodeMotion::collect_loop_info(
             loop_instructions.insert(&inst);
             if (auto *store_inst = dynamic_cast<StoreInst*>(&inst)){
                 if(auto *global_var = dynamic_cast<GlobalVariable*>(store_inst->get_lval())){
-                    updated_global.insert(global_var);
+                    updated_global.insert(&inst);
                 }
             }
             if (auto *call_inst = dynamic_cast<CallInst*>(&inst)){
@@ -75,6 +75,8 @@ void LoopInvariantCodeMotion::collect_loop_info(
         collect_loop_info(sub_loop, loop_instructions, updated_global, contains_impure_call);
     }
 }
+
+
 
 /**
  * @brief 对单个循环执行不变式外提优化
@@ -103,16 +105,36 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
         changed = false;
 
         // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
-        for (auto *value : loop_invariant){
+        for (auto *value : loop_instructions){
             auto *inst = dynamic_cast<Instruction*>(value);
             if(inst->is_store() || inst->is_ret() || inst->is_br() || inst->is_phi() || contains_impure_call){
                 continue;
             }
+            if (std::find(loop_invariant.begin(), loop_invariant.end(), inst) != loop_invariant.end()){
+                continue;
+            }
+            if (auto *load_inst = dynamic_cast<LoadInst*>(inst)){
+                if (auto global_var = dynamic_cast<GlobalVariable *>(load_inst->get_operand(0))) {
+                    bool global_updated = false;
+                    for (auto &up_instr : updated_global) { 
+                        auto store_inst = dynamic_cast<StoreInst*> (static_cast<Value*>(up_instr));
+                        if(store_inst->get_lval() == global_var){
+                            global_updated = true;
+                            break;
+                        }
+                    }
+                    if(global_updated){
+                        continue;
+                    }
+                }
+            }
             bool is_invariant = true;
             for (auto *operand : inst->get_operands()){
-                if (loop_instructions.find(operand) != loop_instructions.end()){
-                    is_invariant = false;
-                    break;
+                if (loop_instructions.count(operand)) {
+                    if (std::find(loop_invariant.begin(), loop_invariant.end(), operand) == loop_invariant.end()){
+                        is_invariant = false;
+                        break;
+                    }
                 }
             }
             if (is_invariant) {
@@ -140,9 +162,18 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
             break;
         
         // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
-        auto *phi_inst = dynamic_cast<PhiInst*>(&phi_inst_);
-        for (auto &invariant : loop_invariant){
-            phi_inst->add_phi_pair_operand(invariant, preheader);
+        auto phi_inst = dynamic_cast<PhiInst*>(&phi_inst_);
+        auto old_pairs = phi_inst->get_phi_pairs();
+        phi_inst->remove_all_operands();
+        for(auto &pair : old_pairs){
+            auto val = pair.first;
+            auto bb = pair.second;
+            if ((loop->get_latches()).count(bb) > 0){
+                phi_inst->add_phi_pair_operand(val, bb);
+            }
+            else{
+                phi_inst->add_phi_pair_operand(val, preheader);
+            }
         }
     }
 
@@ -154,21 +185,31 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
     for (auto &pred : loop->get_header()->get_pre_basic_blocks()) {
         // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
         if((loop->get_latches()).find(pred) == (loop->get_latches()).end()){
-            pred->erase_from_parent();
-            pred->add_pre_basic_block(preheader);
-            preheader->add_succ_basic_block(pred);
+            auto term = dynamic_cast<BranchInst*>(pred->get_terminator());
+            if (term){
+                for (unsigned int i = 0; i < term->get_num_operand(); i++){
+                    auto op = term->get_operand(i);
+                    if (op == loop->get_header()){
+                        term->set_operand(i, preheader);
+                    }
+                }
+            }
+            preheader->add_pre_basic_block(pred);
+            pred->remove_succ_basic_block(loop->get_header());
+            pred->add_succ_basic_block(preheader);
+            pred_to_remove.push_back(pred);
         }
     }
-
     for (auto &pred : pred_to_remove) {
         loop->get_header()->remove_pre_basic_block(pred);
     }
-
-    // TODO: 外提循环不变指令
+    //TODO: 外提循环不变指令
     // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
     for (auto *value : loop_invariant) {
         auto *inst = dynamic_cast<Instruction*>(value);
-        preheader->add_instruction(inst);
+        auto old_bb = inst->get_parent();
+        old_bb->remove_instr(inst);
+        preheader->add_instr_begin(inst);
     }
 
     // insert preheader br to header
@@ -179,4 +220,3 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
         loop->get_parent()->add_block(preheader);
     }
 }
-
