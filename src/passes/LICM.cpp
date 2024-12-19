@@ -183,7 +183,6 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
     // 并将 preheader 的跳转指向 header
     // 注意这里需要更新前驱块的后继和后继的前驱
     std::vector<BasicBlock *> pred_to_remove;
-    auto latch_bb = loop->get_latches();
     auto all_bbs = loop->get_blocks();
     auto header = loop->get_header();
     
