@@ -185,7 +185,6 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
     for (auto &pred : loop->get_header()->get_pre_basic_blocks()) {
         // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
         if((loop->get_latches()).find(pred) == (loop->get_latches()).end()){
-            pred_to_remove.push_back(pred);
             auto term = dynamic_cast<BranchInst*>(pred->get_terminator());
             if (term){
                 for (unsigned int i = 0; i < term->get_num_operand(); i++){
@@ -195,14 +194,17 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
                     }
                 }
             }
-            
+            preheader->add_pre_basic_block(pred);
+            pred->remove_succ_basic_block(loop->get_header());
+            pred->add_succ_basic_block(preheader);
+            pred_to_remove.push_back(pred);
         }
     }
     for (auto &pred : pred_to_remove) {
         loop->get_header()->remove_pre_basic_block(pred);
-        preheader->add_pre_basic_block(pred);
-        pred->remove_succ_basic_block(loop->get_header());
-        pred->add_succ_basic_block(preheader);
+    }
+    if (preheader->is_terminated()) {
+        preheader->erase_instr(preheader->get_terminator());
     }
     //TODO: 外提循环不变指令
     // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
