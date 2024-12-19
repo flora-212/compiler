@@ -184,7 +184,7 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
     std::vector<BasicBlock *> pred_to_remove;
     for (auto &pred : loop->get_header()->get_pre_basic_blocks()) {
         // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
-        if ((loop->get_latches().count(pred) <= 0) && (std::find(loop->get_blocks().begin(), loop->get_blocks().end(), pred) == loop->get_blocks().end())) {
+        if((loop->get_latches()).find(pred) == (loop->get_latches()).end()){
             auto term = dynamic_cast<BranchInst*>(pred->get_terminator());
             if (term){
                 for (unsigned int i = 0; i < term->get_num_operand(); i++){
@@ -210,6 +210,65 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
         auto old_bb = inst->get_parent();
         old_bb->remove_instr(inst);
         preheader->add_instr_begin(inst);
+    }// TODO: 用跳转指令重构控制流图
+    // 将所有非 latch 的 header 前驱块的跳转指向 preheader
+    // 并将 preheader 的跳转指向 header
+    // 注意这里需要更新前驱块的后继和后继的前驱
+    std::vector<BasicBlock *> pred_to_remove;
+    auto all_bbs = loop->get_blocks();
+    auto header = loop->get_header();
+    
+    for (auto &pred : loop->get_header()->get_pre_basic_blocks()) {
+        if ((latch_bb.count(pred) <= 0) && (std::find(all_bbs.begin(), all_bbs.end(), pred) == all_bbs.end())) {
+            // 将所有非 latch 的 header 前驱块的跳转指向 preheader
+            pred_to_remove.push_back(pred);
+            auto term = pred->get_terminator();
+            if (term) {
+                assert(term->is_br());
+                auto br = dynamic_cast<BranchInst*>(term);
+                for (int i = 0; i < br->get_num_operand(); i++) {
+                    auto op = br->get_operand(i);
+                    if (op == header) {
+                        br->set_operand(i, preheader);
+                    }
+                }
+            }
+        }
+    }
+
+    for (auto &pred : pred_to_remove) {
+        header->remove_pre_basic_block(pred);
+        preheader->add_pre_basic_block(pred);
+        pred->remove_succ_basic_block(loop->get_header());
+        pred->add_succ_basic_block(preheader);
+    }
+
+    if (preheader->is_terminated()) {
+        preheader->erase_instr(preheader->get_terminator());
+    }
+
+    // header->add_pre_basic_block(preheader); // 重复
+    // preheader->add_succ_basic_block(loop->get_header());
+
+    // TODO: 外提循环不变指令
+    for (auto inv_inst1 = loop_invariant.rbegin(); inv_inst1 != loop_invariant.rend(); ++inv_inst1) {
+        std::cout << "Value pointer: " << *inv_inst1 << std::endl;
+
+        if (auto inv_inst = dynamic_cast<Instruction*>(*inv_inst1)) {
+            std::cout << "success" << std::endl;
+        } else {
+            std::cout << "fail" << std::endl;
+        }
+
+        auto inv_inst = dynamic_cast<Instruction*>(*inv_inst1);
+        if (!inv_inst) continue;
+
+        // 从原位置移除
+        auto old_bb = inv_inst->get_parent();
+        old_bb->remove_instr(inv_inst);
+
+        // 插入到 preheader 终结指令前
+        preheader->add_instr_begin(inv_inst);
     }
 
     // insert preheader br to header

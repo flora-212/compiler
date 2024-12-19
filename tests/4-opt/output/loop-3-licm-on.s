@@ -213,7 +213,7 @@ main:
 	add.w $t2, $t0, $t1
 	st.w $t2, $fp, -120
 # br label %label44
-	ld.w $a0, $fp, -128
+	ld.w $a0, $fp, -200
 	st.w $a0, $fp, -106
 	ld.w $a0, $fp, -120
 	st.w $a0, $fp, -110
@@ -266,100 +266,100 @@ main:
 	st.w $a0, $fp, -38
 	b .main_label8
 .main_label78:
-# %op69 = sdiv i32 %op68, 2
-	ld.w $t0, $fp, -132
-	addi.w $t1, $zero, 2
-	div.w $t2, $t0, $t1
-	st.w $t2, $fp, -128
-# %op68 = sdiv i32 %op67, 2
-	ld.w $t0, $fp, -136
-	addi.w $t1, $zero, 2
-	div.w $t2, $t0, $t1
-	st.w $t2, $fp, -132
-# %op67 = sdiv i32 %op66, 2
-	ld.w $t0, $fp, -140
-	addi.w $t1, $zero, 2
-	div.w $t2, $t0, $t1
-	st.w $t2, $fp, -136
-# %op66 = sdiv i32 %op65, 2
-	ld.w $t0, $fp, -144
-	addi.w $t1, $zero, 2
-	div.w $t2, $t0, $t1
-	st.w $t2, $fp, -140
-# %op65 = sdiv i32 %op64, 2
-	ld.w $t0, $fp, -148
-	addi.w $t1, $zero, 2
-	div.w $t2, $t0, $t1
-	st.w $t2, $fp, -144
-# %op64 = sdiv i32 %op63, 2
-	ld.w $t0, $fp, -152
-	addi.w $t1, $zero, 2
-	div.w $t2, $t0, $t1
-	st.w $t2, $fp, -148
-# %op63 = sdiv i32 %op62, 2
-	ld.w $t0, $fp, -156
-	addi.w $t1, $zero, 2
-	div.w $t2, $t0, $t1
-	st.w $t2, $fp, -152
-# %op62 = sdiv i32 %op61, 2
-	ld.w $t0, $fp, -160
-	addi.w $t1, $zero, 2
-	div.w $t2, $t0, $t1
-	st.w $t2, $fp, -156
-# %op61 = sdiv i32 %op60, 2
-	ld.w $t0, $fp, -164
-	addi.w $t1, $zero, 2
-	div.w $t2, $t0, $t1
-	st.w $t2, $fp, -160
-# %op60 = sdiv i32 %op59, 2
-	ld.w $t0, $fp, -168
-	addi.w $t1, $zero, 2
-	div.w $t2, $t0, $t1
-	st.w $t2, $fp, -164
-# %op59 = mul i32 %op58, 2
-	ld.w $t0, $fp, -172
-	addi.w $t1, $zero, 2
-	mul.w $t2, $t0, $t1
-	st.w $t2, $fp, -168
-# %op58 = mul i32 %op57, 2
-	ld.w $t0, $fp, -176
-	addi.w $t1, $zero, 2
-	mul.w $t2, $t0, $t1
-	st.w $t2, $fp, -172
-# %op57 = mul i32 %op56, 2
-	ld.w $t0, $fp, -180
-	addi.w $t1, $zero, 2
-	mul.w $t2, $t0, $t1
-	st.w $t2, $fp, -176
-# %op56 = mul i32 %op55, 2
-	ld.w $t0, $fp, -184
-	addi.w $t1, $zero, 2
-	mul.w $t2, $t0, $t1
-	st.w $t2, $fp, -180
-# %op55 = mul i32 %op54, 2
-	ld.w $t0, $fp, -188
-	addi.w $t1, $zero, 2
-	mul.w $t2, $t0, $t1
-	st.w $t2, $fp, -184
-# %op54 = mul i32 %op53, 2
-	ld.w $t0, $fp, -192
-	addi.w $t1, $zero, 2
-	mul.w $t2, $t0, $t1
-	st.w $t2, $fp, -188
-# %op53 = mul i32 %op52, 2
-	ld.w $t0, $fp, -196
-	addi.w $t1, $zero, 2
-	mul.w $t2, $t0, $t1
-	st.w $t2, $fp, -192
-# %op52 = mul i32 %op51, 2
-	ld.w $t0, $fp, -200
-	addi.w $t1, $zero, 2
-	mul.w $t2, $t0, $t1
-	st.w $t2, $fp, -196
 # %op51 = mul i32 2, 2
 	addi.w $t0, $zero, 2
 	addi.w $t1, $zero, 2
 	mul.w $t2, $t0, $t1
+	st.w $t2, $fp, -128
+# %op52 = mul i32 %op51, 2
+	ld.w $t0, $fp, -128
+	addi.w $t1, $zero, 2
+	mul.w $t2, $t0, $t1
+	st.w $t2, $fp, -132
+# %op53 = mul i32 %op52, 2
+	ld.w $t0, $fp, -132
+	addi.w $t1, $zero, 2
+	mul.w $t2, $t0, $t1
+	st.w $t2, $fp, -136
+# %op54 = mul i32 %op53, 2
+	ld.w $t0, $fp, -136
+	addi.w $t1, $zero, 2
+	mul.w $t2, $t0, $t1
+	st.w $t2, $fp, -140
+# %op55 = mul i32 %op54, 2
+	ld.w $t0, $fp, -140
+	addi.w $t1, $zero, 2
+	mul.w $t2, $t0, $t1
+	st.w $t2, $fp, -144
+# %op56 = mul i32 %op55, 2
+	ld.w $t0, $fp, -144
+	addi.w $t1, $zero, 2
+	mul.w $t2, $t0, $t1
+	st.w $t2, $fp, -148
+# %op57 = mul i32 %op56, 2
+	ld.w $t0, $fp, -148
+	addi.w $t1, $zero, 2
+	mul.w $t2, $t0, $t1
+	st.w $t2, $fp, -152
+# %op58 = mul i32 %op57, 2
+	ld.w $t0, $fp, -152
+	addi.w $t1, $zero, 2
+	mul.w $t2, $t0, $t1
+	st.w $t2, $fp, -156
+# %op59 = mul i32 %op58, 2
+	ld.w $t0, $fp, -156
+	addi.w $t1, $zero, 2
+	mul.w $t2, $t0, $t1
+	st.w $t2, $fp, -160
+# %op60 = sdiv i32 %op59, 2
+	ld.w $t0, $fp, -160
+	addi.w $t1, $zero, 2
+	div.w $t2, $t0, $t1
+	st.w $t2, $fp, -164
+# %op61 = sdiv i32 %op60, 2
+	ld.w $t0, $fp, -164
+	addi.w $t1, $zero, 2
+	div.w $t2, $t0, $t1
+	st.w $t2, $fp, -168
+# %op62 = sdiv i32 %op61, 2
+	ld.w $t0, $fp, -168
+	addi.w $t1, $zero, 2
+	div.w $t2, $t0, $t1
+	st.w $t2, $fp, -172
+# %op63 = sdiv i32 %op62, 2
+	ld.w $t0, $fp, -172
+	addi.w $t1, $zero, 2
+	div.w $t2, $t0, $t1
+	st.w $t2, $fp, -176
+# %op64 = sdiv i32 %op63, 2
+	ld.w $t0, $fp, -176
+	addi.w $t1, $zero, 2
+	div.w $t2, $t0, $t1
+	st.w $t2, $fp, -180
+# %op65 = sdiv i32 %op64, 2
+	ld.w $t0, $fp, -180
+	addi.w $t1, $zero, 2
+	div.w $t2, $t0, $t1
+	st.w $t2, $fp, -184
+# %op66 = sdiv i32 %op65, 2
+	ld.w $t0, $fp, -184
+	addi.w $t1, $zero, 2
+	div.w $t2, $t0, $t1
+	st.w $t2, $fp, -188
+# %op67 = sdiv i32 %op66, 2
+	ld.w $t0, $fp, -188
+	addi.w $t1, $zero, 2
+	div.w $t2, $t0, $t1
+	st.w $t2, $fp, -192
+# %op68 = sdiv i32 %op67, 2
+	ld.w $t0, $fp, -192
+	addi.w $t1, $zero, 2
+	div.w $t2, $t0, $t1
+	st.w $t2, $fp, -196
+# %op69 = sdiv i32 %op68, 2
+	ld.w $t0, $fp, -196
+	addi.w $t1, $zero, 2
+	div.w $t2, $t0, $t1
 	st.w $t2, $fp, -200
 # br label %label0
 	addi.w $a0, $zero, 0

@@ -6,6 +6,57 @@ Sub loops:
 Loop header: label0
 Loop blocks: label0 label35 label8 label14 label6 
 Sub loops: label8 
+check bb inst num: 6
+check bb inst num: 21
+check bb inst num: 6
+check bb inst num: 21
+Value pointer: 0x563f0cc9d320
+success
+Value pointer: 0x563f0cc9d210
+success
+Value pointer: 0x563f0cc9d100
+success
+Value pointer: 0x563f0cc9cff0
+success
+Value pointer: 0x563f0cc9cee0
+success
+Value pointer: 0x563f0cc9cdd0
+success
+Value pointer: 0x563f0cc9ccc0
+success
+Value pointer: 0x563f0cc9cbb0
+success
+Value pointer: 0x563f0cc9caa0
+success
+Value pointer: 0x563f0cc9c990
+success
+Value pointer: 0x563f0cc9c880
+success
+Value pointer: 0x563f0cc9c770
+success
+Value pointer: 0x563f0cc9c660
+success
+Value pointer: 0x563f0cc9c550
+success
+Value pointer: 0x563f0cc9c440
+success
+Value pointer: 0x563f0cc9c330
+success
+Value pointer: 0x563f0cc9c220
+success
+Value pointer: 0x563f0cc9c110
+success
+Value pointer: 0x563f0cc9bfe0
+success
+Number of instructions in preheader: 19
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 20
 ==========./testcases/loop/loop-2.cminus==========
 Loop Detection Result:
 Loop header: label8
@@ -14,6 +65,108 @@ Sub loops:
 Loop header: label0
 Loop blocks: label0 label35 label8 label14 label6 
 Sub loops: label8 
+check bb inst num: 6
+check bb inst num: 21
+check bb inst num: 6
+check bb inst num: 21
+Value pointer: 0x5641d538b440
+success
+Value pointer: 0x5641d538b330
+success
+Value pointer: 0x5641d538b220
+success
+Value pointer: 0x5641d538b110
+success
+Value pointer: 0x5641d538b000
+success
+Value pointer: 0x5641d538aef0
+success
+Value pointer: 0x5641d538ade0
+success
+Value pointer: 0x5641d538acd0
+success
+Value pointer: 0x5641d538abc0
+success
+Value pointer: 0x5641d538aab0
+success
+Value pointer: 0x5641d538a9a0
+success
+Value pointer: 0x5641d538a890
+success
+Value pointer: 0x5641d538a780
+success
+Value pointer: 0x5641d538a670
+success
+Value pointer: 0x5641d538a560
+success
+Value pointer: 0x5641d538a450
+success
+Value pointer: 0x5641d538a340
+success
+Value pointer: 0x5641d538a230
+success
+Value pointer: 0x5641d538a100
+success
+Number of instructions in preheader: 19
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 20
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 20
+Value pointer: 0x5641d538b440
+success
+Value pointer: 0x5641d538b330
+success
+Value pointer: 0x5641d538b220
+success
+Value pointer: 0x5641d538b110
+success
+Value pointer: 0x5641d538b000
+success
+Value pointer: 0x5641d538aef0
+success
+Value pointer: 0x5641d538ade0
+success
+Value pointer: 0x5641d538acd0
+success
+Value pointer: 0x5641d538abc0
+success
+Value pointer: 0x5641d538aab0
+success
+Value pointer: 0x5641d538a9a0
+success
+Value pointer: 0x5641d538a890
+success
+Value pointer: 0x5641d538a780
+success
+Value pointer: 0x5641d538a670
+success
+Value pointer: 0x5641d538a560
+success
+Value pointer: 0x5641d538a450
+success
+Value pointer: 0x5641d538a340
+success
+Value pointer: 0x5641d538a230
+success
+Value pointer: 0x5641d538a100
+success
+Number of instructions in preheader: 19
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
 ==========./testcases/loop/loop-3.cminus==========
 Loop Detection Result:
 Loop header: label44
@@ -34,6 +187,426 @@ Sub loops: label17
 Loop header: label0
 Loop blocks: label0 label15 label8 label24 label17 label33 label26 label42 label35 label71 label44 label50 label41 label32 label23 label14 label6 
 Sub loops: label8 
+check bb inst num: 6
+check bb inst num: 21
+check bb inst num: 6
+check bb inst num: 21
+Value pointer: 0x560e74fb0080
+success
+Value pointer: 0x560e74faff70
+success
+Value pointer: 0x560e74fafe60
+success
+Value pointer: 0x560e74fafd50
+success
+Value pointer: 0x560e74fafc40
+success
+Value pointer: 0x560e74fafb30
+success
+Value pointer: 0x560e74fafa20
+success
+Value pointer: 0x560e74faf910
+success
+Value pointer: 0x560e74faf800
+success
+Value pointer: 0x560e74faf6f0
+success
+Value pointer: 0x560e74faf5e0
+success
+Value pointer: 0x560e74faf4d0
+success
+Value pointer: 0x560e74faf3c0
+success
+Value pointer: 0x560e74faf2b0
+success
+Value pointer: 0x560e74faf1a0
+success
+Value pointer: 0x560e74faf090
+success
+Value pointer: 0x560e74faef80
+success
+Value pointer: 0x560e74faee70
+success
+Value pointer: 0x560e74faed40
+success
+Number of instructions in preheader: 19
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 20
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 20
+Value pointer: 0x560e74fb0080
+success
+Value pointer: 0x560e74faff70
+success
+Value pointer: 0x560e74fafe60
+success
+Value pointer: 0x560e74fafd50
+success
+Value pointer: 0x560e74fafc40
+success
+Value pointer: 0x560e74fafb30
+success
+Value pointer: 0x560e74fafa20
+success
+Value pointer: 0x560e74faf910
+success
+Value pointer: 0x560e74faf800
+success
+Value pointer: 0x560e74faf6f0
+success
+Value pointer: 0x560e74faf5e0
+success
+Value pointer: 0x560e74faf4d0
+success
+Value pointer: 0x560e74faf3c0
+success
+Value pointer: 0x560e74faf2b0
+success
+Value pointer: 0x560e74faf1a0
+success
+Value pointer: 0x560e74faf090
+success
+Value pointer: 0x560e74faef80
+success
+Value pointer: 0x560e74faee70
+success
+Value pointer: 0x560e74faed40
+success
+Number of instructions in preheader: 19
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 20
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 20
+Value pointer: 0x560e74fb0080
+success
+Value pointer: 0x560e74faff70
+success
+Value pointer: 0x560e74fafe60
+success
+Value pointer: 0x560e74fafd50
+success
+Value pointer: 0x560e74fafc40
+success
+Value pointer: 0x560e74fafb30
+success
+Value pointer: 0x560e74fafa20
+success
+Value pointer: 0x560e74faf910
+success
+Value pointer: 0x560e74faf800
+success
+Value pointer: 0x560e74faf6f0
+success
+Value pointer: 0x560e74faf5e0
+success
+Value pointer: 0x560e74faf4d0
+success
+Value pointer: 0x560e74faf3c0
+success
+Value pointer: 0x560e74faf2b0
+success
+Value pointer: 0x560e74faf1a0
+success
+Value pointer: 0x560e74faf090
+success
+Value pointer: 0x560e74faef80
+success
+Value pointer: 0x560e74faee70
+success
+Value pointer: 0x560e74faed40
+success
+Number of instructions in preheader: 19
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 20
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 20
+Value pointer: 0x560e74fb0080
+success
+Value pointer: 0x560e74faff70
+success
+Value pointer: 0x560e74fafe60
+success
+Value pointer: 0x560e74fafd50
+success
+Value pointer: 0x560e74fafc40
+success
+Value pointer: 0x560e74fafb30
+success
+Value pointer: 0x560e74fafa20
+success
+Value pointer: 0x560e74faf910
+success
+Value pointer: 0x560e74faf800
+success
+Value pointer: 0x560e74faf6f0
+success
+Value pointer: 0x560e74faf5e0
+success
+Value pointer: 0x560e74faf4d0
+success
+Value pointer: 0x560e74faf3c0
+success
+Value pointer: 0x560e74faf2b0
+success
+Value pointer: 0x560e74faf1a0
+success
+Value pointer: 0x560e74faf090
+success
+Value pointer: 0x560e74faef80
+success
+Value pointer: 0x560e74faee70
+success
+Value pointer: 0x560e74faed40
+success
+Number of instructions in preheader: 19
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 20
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 20
+Value pointer: 0x560e74fb0080
+success
+Value pointer: 0x560e74faff70
+success
+Value pointer: 0x560e74fafe60
+success
+Value pointer: 0x560e74fafd50
+success
+Value pointer: 0x560e74fafc40
+success
+Value pointer: 0x560e74fafb30
+success
+Value pointer: 0x560e74fafa20
+success
+Value pointer: 0x560e74faf910
+success
+Value pointer: 0x560e74faf800
+success
+Value pointer: 0x560e74faf6f0
+success
+Value pointer: 0x560e74faf5e0
+success
+Value pointer: 0x560e74faf4d0
+success
+Value pointer: 0x560e74faf3c0
+success
+Value pointer: 0x560e74faf2b0
+success
+Value pointer: 0x560e74faf1a0
+success
+Value pointer: 0x560e74faf090
+success
+Value pointer: 0x560e74faef80
+success
+Value pointer: 0x560e74faee70
+success
+Value pointer: 0x560e74faed40
+success
+Number of instructions in preheader: 19
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 20
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 20
+Value pointer: 0x560e74fb0080
+success
+Value pointer: 0x560e74faff70
+success
+Value pointer: 0x560e74fafe60
+success
+Value pointer: 0x560e74fafd50
+success
+Value pointer: 0x560e74fafc40
+success
+Value pointer: 0x560e74fafb30
+success
+Value pointer: 0x560e74fafa20
+success
+Value pointer: 0x560e74faf910
+success
+Value pointer: 0x560e74faf800
+success
+Value pointer: 0x560e74faf6f0
+success
+Value pointer: 0x560e74faf5e0
+success
+Value pointer: 0x560e74faf4d0
+success
+Value pointer: 0x560e74faf3c0
+success
+Value pointer: 0x560e74faf2b0
+success
+Value pointer: 0x560e74faf1a0
+success
+Value pointer: 0x560e74faf090
+success
+Value pointer: 0x560e74faef80
+success
+Value pointer: 0x560e74faee70
+success
+Value pointer: 0x560e74faed40
+success
+Number of instructions in preheader: 19
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
 ==========./testcases/loop/loop-4.cminus==========
 Loop Detection Result:
 Loop header: label47
@@ -54,3 +627,489 @@ Sub loops: label17
 Loop header: label0
 Loop blocks: label0 label15 label8 label25 label17 label35 label27 label45 label37 label56 label47 label61 label60 label54 label58 label44 label34 label24 label14 label6 
 Sub loops: label8 
+check bb inst num: 7
+check bb inst num: 22
+check bb inst num: 1
+check bb inst num: 2
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 22
+check bb inst num: 1
+check bb inst num: 2
+check bb inst num: 2
+Value pointer: 0x5570fc60ac00
+success
+Value pointer: 0x5570fc60da90
+success
+Value pointer: 0x5570fc60d980
+success
+Value pointer: 0x5570fc60d870
+success
+Value pointer: 0x5570fc60d760
+success
+Value pointer: 0x5570fc60d650
+success
+Value pointer: 0x5570fc60d540
+success
+Value pointer: 0x5570fc60d430
+success
+Value pointer: 0x5570fc60d320
+success
+Value pointer: 0x5570fc60d210
+success
+Value pointer: 0x5570fc60d100
+success
+Value pointer: 0x5570fc60cff0
+success
+Value pointer: 0x5570fc60cee0
+success
+Value pointer: 0x5570fc60cdd0
+success
+Value pointer: 0x5570fc60ccc0
+success
+Value pointer: 0x5570fc60cbb0
+success
+Value pointer: 0x5570fc60caa0
+success
+Value pointer: 0x5570fc60c990
+success
+Value pointer: 0x5570fc60c880
+success
+Value pointer: 0x5570fc60c750
+success
+Number of instructions in preheader: 20
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 3
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 3
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 21
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 3
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 21
+Value pointer: 0x5570fc60ac00
+success
+Value pointer: 0x5570fc60da90
+success
+Value pointer: 0x5570fc60d980
+success
+Value pointer: 0x5570fc60d870
+success
+Value pointer: 0x5570fc60d760
+success
+Value pointer: 0x5570fc60d650
+success
+Value pointer: 0x5570fc60d540
+success
+Value pointer: 0x5570fc60d430
+success
+Value pointer: 0x5570fc60d320
+success
+Value pointer: 0x5570fc60d210
+success
+Value pointer: 0x5570fc60d100
+success
+Value pointer: 0x5570fc60cff0
+success
+Value pointer: 0x5570fc60cee0
+success
+Value pointer: 0x5570fc60cdd0
+success
+Value pointer: 0x5570fc60ccc0
+success
+Value pointer: 0x5570fc60cbb0
+success
+Value pointer: 0x5570fc60caa0
+success
+Value pointer: 0x5570fc60c990
+success
+Value pointer: 0x5570fc60c880
+success
+Value pointer: 0x5570fc60c750
+success
+Number of instructions in preheader: 20
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 3
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 3
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 21
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 3
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 21
+Value pointer: 0x5570fc60ac00
+success
+Value pointer: 0x5570fc60da90
+success
+Value pointer: 0x5570fc60d980
+success
+Value pointer: 0x5570fc60d870
+success
+Value pointer: 0x5570fc60d760
+success
+Value pointer: 0x5570fc60d650
+success
+Value pointer: 0x5570fc60d540
+success
+Value pointer: 0x5570fc60d430
+success
+Value pointer: 0x5570fc60d320
+success
+Value pointer: 0x5570fc60d210
+success
+Value pointer: 0x5570fc60d100
+success
+Value pointer: 0x5570fc60cff0
+success
+Value pointer: 0x5570fc60cee0
+success
+Value pointer: 0x5570fc60cdd0
+success
+Value pointer: 0x5570fc60ccc0
+success
+Value pointer: 0x5570fc60cbb0
+success
+Value pointer: 0x5570fc60caa0
+success
+Value pointer: 0x5570fc60c990
+success
+Value pointer: 0x5570fc60c880
+success
+Value pointer: 0x5570fc60c750
+success
+Number of instructions in preheader: 20
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 3
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 3
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 21
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 3
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 21
+Value pointer: 0x5570fc60ac00
+success
+Value pointer: 0x5570fc60da90
+success
+Value pointer: 0x5570fc60d980
+success
+Value pointer: 0x5570fc60d870
+success
+Value pointer: 0x5570fc60d760
+success
+Value pointer: 0x5570fc60d650
+success
+Value pointer: 0x5570fc60d540
+success
+Value pointer: 0x5570fc60d430
+success
+Value pointer: 0x5570fc60d320
+success
+Value pointer: 0x5570fc60d210
+success
+Value pointer: 0x5570fc60d100
+success
+Value pointer: 0x5570fc60cff0
+success
+Value pointer: 0x5570fc60cee0
+success
+Value pointer: 0x5570fc60cdd0
+success
+Value pointer: 0x5570fc60ccc0
+success
+Value pointer: 0x5570fc60cbb0
+success
+Value pointer: 0x5570fc60caa0
+success
+Value pointer: 0x5570fc60c990
+success
+Value pointer: 0x5570fc60c880
+success
+Value pointer: 0x5570fc60c750
+success
+Number of instructions in preheader: 20
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 3
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 3
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 21
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 3
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 21
+Value pointer: 0x5570fc60ac00
+success
+Value pointer: 0x5570fc60da90
+success
+Value pointer: 0x5570fc60d980
+success
+Value pointer: 0x5570fc60d870
+success
+Value pointer: 0x5570fc60d760
+success
+Value pointer: 0x5570fc60d650
+success
+Value pointer: 0x5570fc60d540
+success
+Value pointer: 0x5570fc60d430
+success
+Value pointer: 0x5570fc60d320
+success
+Value pointer: 0x5570fc60d210
+success
+Value pointer: 0x5570fc60d100
+success
+Value pointer: 0x5570fc60cff0
+success
+Value pointer: 0x5570fc60cee0
+success
+Value pointer: 0x5570fc60cdd0
+success
+Value pointer: 0x5570fc60ccc0
+success
+Value pointer: 0x5570fc60cbb0
+success
+Value pointer: 0x5570fc60caa0
+success
+Value pointer: 0x5570fc60c990
+success
+Value pointer: 0x5570fc60c880
+success
+Value pointer: 0x5570fc60c750
+success
+Number of instructions in preheader: 20
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 3
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 3
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 21
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 6
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 2
+check bb inst num: 7
+check bb inst num: 3
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 2
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 1
+check bb inst num: 21
+Value pointer: 0x5570fc60ac00
+success
+Value pointer: 0x5570fc60da90
+success
+Value pointer: 0x5570fc60d980
+success
+Value pointer: 0x5570fc60d870
+success
+Value pointer: 0x5570fc60d760
+success
+Value pointer: 0x5570fc60d650
+success
+Value pointer: 0x5570fc60d540
+success
+Value pointer: 0x5570fc60d430
+success
+Value pointer: 0x5570fc60d320
+success
+Value pointer: 0x5570fc60d210
+success
+Value pointer: 0x5570fc60d100
+success
+Value pointer: 0x5570fc60cff0
+success
+Value pointer: 0x5570fc60cee0
+success
+Value pointer: 0x5570fc60cdd0
+success
+Value pointer: 0x5570fc60ccc0
+success
+Value pointer: 0x5570fc60cbb0
+success
+Value pointer: 0x5570fc60caa0
+success
+Value pointer: 0x5570fc60c990
+success
+Value pointer: 0x5570fc60c880
+success
+Value pointer: 0x5570fc60c750
+success
+Number of instructions in preheader: 20
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 6
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 7
+Number of instructions in bb in loop: 3
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 2
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
+Number of instructions in bb in loop: 1
