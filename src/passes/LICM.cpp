@@ -157,22 +157,23 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
     auto preheader = loop->get_preheader();
 
     // TODO: 更新 phi 指令
+    auto latch_bb = loop->get_latches();
     for (auto &phi_inst_ : loop->get_header()->get_instructions()) {
-        if (phi_inst_.get_instr_type() != Instruction::phi)
-            break;
+        if (phi_inst_.get_instr_type() != Instruction::phi) break;
         
-        // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
         auto phi_inst = dynamic_cast<PhiInst*>(&phi_inst_);
         auto old_pairs = phi_inst->get_phi_pairs();
         phi_inst->remove_all_operands();
-        for(auto &pair : old_pairs){
-            auto val = pair.first;
-            auto bb = pair.second;
-            if ((loop->get_latches()).count(bb) > 0){
-                phi_inst->add_phi_pair_operand(val, bb);
-            }
-            else{
-                phi_inst->add_phi_pair_operand(val, preheader);
+        
+        for (auto &phi_pair : old_pairs) {
+            Value *val_ = phi_pair.first;
+            BasicBlock *bb_ = phi_pair.second;
+            
+            if (latch_bb.count(bb_) > 0) {
+                // 保留 latch 边原始的信息
+                phi_inst->add_phi_pair_operand(val_, bb_);
+            } else {
+                phi_inst->add_phi_pair_operand(val_, preheader);
             }
         }
     }
