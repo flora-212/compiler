@@ -184,7 +184,7 @@ void LoopInvariantCodeMotion::run_on_loop(std::shared_ptr<Loop> loop) {
     std::vector<BasicBlock *> pred_to_remove;
     for (auto &pred : loop->get_header()->get_pre_basic_blocks()) {
         // throw std::runtime_error("Lab4: 你有一个TODO需要完成！");
-        if((loop->get_latches()).find(pred) == (loop->get_latches()).end()){
+        if ((loop->get_latches().count(pred) <= 0) && (std::find(loop->get_blocks().begin(), loop->get_blocks().end(), pred) == loop->get_blocks().end())) {
             auto term = dynamic_cast<BranchInst*>(pred->get_terminator());
             if (term){
                 for (unsigned int i = 0; i < term->get_num_operand(); i++){
