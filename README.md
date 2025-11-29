@@ -1,7 +1,7 @@
 # CMinus Compiler with Intermediate Code Optimization
 ## 📖 Project Overview
 
-This project is a complete **CMinus language compiler** developed as part of a compiler course experiment at USTC. Built on top of a framework provided by teaching assistants, this implementation features a full compilation pipeline from source code to optimized assembly, with particular emphasis on **intermediate code optimization**.
+This project is a complete **CMinus language compiler** developed as part of a compiler course experiment at USTC. Built on top of a framework provided by teaching assistants, this implementation features a full compilation pipeline from source code to optimized assembly, covering all major phases of modern compiler design.
 
 ### What is CMinus?
 CMinus is a subset of the C programming language designed for educational purposes, supporting basic constructs like variables, functions, control flow, and arrays.
@@ -58,7 +58,7 @@ CMinus is a subset of the C programming language designed for educational purpos
 ```bash
 # Clone the repository
 git clone https://github.com/flora-212/compilor.git
-cd 2024ustc-jianmu-compiler
+cd compiler
 
 # Create build directory
 mkdir build && cd build
@@ -93,24 +93,6 @@ gcc examples/hello.o build/libcminus_io.a -o examples/hello -lm -no-pie
 - `hellohello.cminus` outputs: `42`
 
 
-## 🚀 Optimization Implementation
-
-The project implements several key optimization passes:
-
-| Optimization Pass         | Implementation        | Description                                                        |
-| ------------------------- | --------------------- | ------------------------------------------------------------------ |
-| **Mem2Reg**               | SSA Construction      | Promotes stack variables to registers using phi-function insertion |
-| **Dead Code Elimination** | Reachability Analysis | Removes unreachable code and unused computations                   |
-| **LICM**                  | Loop Analysis         | Identifies and moves loop-invariant computations outside loops     |
-| **Dominator Tree**        | Control Flow Analysis | Constructs dominator relationships for optimization opportunities  |
-
-### Technical Implementation
-- **Memory-to-Register Promotion**: Converts alloca/load/store patterns to SSA form with phi-functions
-- **Static Single Assignment (SSA)**: Implements variable renaming and phi-function placement
-- **Control Flow Analysis**: Uses dominator tree construction to identify optimization opportunities
-- **Loop Detection**: Implements natural loop identification for invariant code motion
-
-
 ## 🧪 Testing
 
 The project includes a comprehensive test suite covering all compiler phases. Each test category validates different aspects of the compilation pipeline.
@@ -127,20 +109,20 @@ The project includes a comprehensive test suite covering all compiler phases. Ea
 
 ### Running Tests
 
-#### 1. Parser Tests (Frontend)
+#### 1. Parser Tests 
 ```bash
 cd tests/1-parser
 ./eval_phase1.sh -all    # Test syntax tree generation
 ./eval_phase2.sh -all    # Test AST generation
 ```
 
-#### 2. IR Generation Tests (Mid-end)  
+#### 2. IR Generation Tests 
 ```bash
 cd tests/2-ir-gen/autogen
 ./eval_lab2.sh           # Python-based IR validation
 ```
 
-#### 3. Code Generation Tests (Backend)
+#### 3. Code Generation Tests 
 ```bash
 cd tests/3-codegen/autogen
 ./eval_lab3.sh
