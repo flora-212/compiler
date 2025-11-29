@@ -1,6 +1,170 @@
-# 简介
+# CMinus Compiler with Intermediate Code Optimization
+## 📖 Project Overview
 
-本仓库为 USTC 编译原理和技术 2024 的课程实验仓库。在本学期的编译实验中，你们将构建一个从词法分析器开始到后端代码生成的JIANMU编译器。
+This project is a complete **CMinus language compiler** developed as part of a compiler course experiment at USTC. Built on top of a framework provided by teaching assistants, this implementation features a full compilation pipeline from source code to optimized assembly, with particular emphasis on **intermediate code optimization**.
 
-你们需要 fork 此 repo 到自己的仓库下，随后在自己的仓库中完成实验。
+### What is CMinus?
+CMinus is a subset of the C programming language designed for educational purposes, supporting basic constructs like variables, functions, control flow, and arrays.
 
+### Key Achievements
+- **Complete compiler pipeline**: Lexical analysis → Parsing → IR generation → Optimization → Code generation
+- **Advanced optimizations**: SSA-based transformations including Mem2Reg, Dead Code Elimination, and Loop-Invariant Code Motion
+- **Custom IR framework**: Educational wrapper around LLVM for better understanding of compiler internals
+- **Production-quality techniques**: Dominator analysis, phi-function placement, and register allocation
+
+## 🔨 Features
+1. **Lexical and Syntax Analysis**
+   - Implemented using **Flex** and **Bison**.
+   - Supports parsing of **CMinus language** constructs.
+   - Builds an abstract syntax tree (AST) for program structure.
+
+2. **Intermediate Code Generation**
+   - Translates the syntax tree into **LLVM Intermediate Representation (IR)**.
+   - Provides a structured and analyzable intermediate layer before assembly.
+
+3. **Assembly Translation**
+   - Converts LLVM IR into **Loongson assembly instructions**.
+   - Demonstrates end-to-end compilation from source to target machine code.
+
+4. **Intermediate Code Optimization**
+   - Constructed **Dominator Tree** to analyze program flow and enable advanced optimizations.
+   - Implemented **Mem2Reg optimization** (Memory-to-Register promotion):
+     - Inserted **ϕ (phi) functions** at join points in the control flow graph.
+     - Performed **variable renaming** to convert to Static Single Assignment (SSA) form.
+   - **Dead Code Elimination (DCE)**: Removed unreachable code and unused computations.
+   - **Loop-Invariant Code Motion (LICM)**: Moved invariant computations outside loops.
+   - Eliminated redundant **memory operations** to improve performance.
+
+## 📂 Project Structure
+
+- `src/` - Source code implementation
+  - `parser/` - Lexical & syntax analysis (Flex & Bison)
+  - `lightir/` - LLVM IR abstraction layer
+  - `passes/` - Optimization passes (Mem2Reg, DCE, LICM, etc.)
+  - `codegen/` - Assembly code generation
+- `tests/` - Test cases (parser, IR generation, codegen, optimization)
+- `examples/` - Sample CMinus programs
+
+
+## 🛠️ Build & Usage
+
+### Prerequisites
+- **CMake** (>= 3.8)
+- **LLVM** development libraries
+- **Flex** & **Bison**
+- **C++17** compatible compiler
+
+### Building
+```bash
+# Clone the repository
+git clone <repository-url>
+cd 2024ustc-jianmu-compiler
+
+# Create build directory
+mkdir build && cd build
+
+# Configure and build
+cmake ..
+make -j
+```
+
+## 🚀 Quick Start Example
+
+### Running the Hello World Example
+
+The project includes sample programs in the `examples/` directory. Here's a complete example of compiling and running a CMinus program:
+
+```bash
+# Step 1: Generate LLVM IR from CMinus source
+./build/cminusfc -emit-llvm -o examples/hello.ll examples/hello.cminus
+
+# Step 2: Compile IR to object file (requires llc)
+llc -filetype=obj examples/hello.ll -o examples/hello.o
+
+# Step 3: Link with runtime library to create executable
+gcc examples/hello.o build/libcminus_io.a -o examples/hello -lm -no-pie
+
+# Step 4: Run the program
+./examples/hello
+```
+
+#### Expected Output
+- `hello.cminus` outputs: `123`
+- `hellohello.cminus` outputs: `42`
+
+
+## 🚀 Optimization Implementation
+
+The project implements several key optimization passes:
+
+| Optimization Pass         | Implementation        | Description                                                        |
+| ------------------------- | --------------------- | ------------------------------------------------------------------ |
+| **Mem2Reg**               | SSA Construction      | Promotes stack variables to registers using phi-function insertion |
+| **Dead Code Elimination** | Reachability Analysis | Removes unreachable code and unused computations                   |
+| **LICM**                  | Loop Analysis         | Identifies and moves loop-invariant computations outside loops     |
+| **Dominator Tree**        | Control Flow Analysis | Constructs dominator relationships for optimization opportunities  |
+
+### Technical Implementation
+- **Memory-to-Register Promotion**: Converts alloca/load/store patterns to SSA form with phi-functions
+- **Static Single Assignment (SSA)**: Implements variable renaming and phi-function placement
+- **Control Flow Analysis**: Uses dominator tree construction to identify optimization opportunities
+- **Loop Detection**: Implements natural loop identification for invariant code motion
+
+
+## 🧪 Testing
+
+The project includes a comprehensive test suite covering all compiler phases. Each test category validates different aspects of the compilation pipeline.
+
+### Test Categories
+
+| Test Phase          | Directory                  | Purpose                                   | Key Scripts                        |
+| ------------------- | -------------------------- | ----------------------------------------- | ---------------------------------- |
+| **Frontend**        | `tests/1-parser/`          | Lexical & syntax analysis, AST generation | `eval_phase1.sh`, `eval_phase2.sh` |
+| **IR Generation**   | `tests/2-ir-gen/`          | AST to LLVM IR translation                | `autogen/eval_lab2.sh`             |
+| **Code Generation** | `tests/3-codegen/`         | IR to assembly conversion                 | `autogen/eval_lab3.sh`             |
+| **Optimization**    | `tests/4-opt/`             | Optimization pass correctness             | `eval_lab4.sh`                     |
+| **General**         | `tests/testcases_general/` | End-to-end validation                     | Various `.cminus` files            |
+
+### Running Tests
+
+#### 1. Parser Tests (Frontend)
+```bash
+cd tests/1-parser
+./eval_phase1.sh -all    # Test syntax tree generation
+./eval_phase2.sh -all    # Test AST generation
+```
+
+#### 2. IR Generation Tests (Mid-end)  
+```bash
+cd tests/2-ir-gen/autogen
+./eval_lab2.sh           # Python-based IR validation
+```
+
+#### 3. Code Generation Tests (Backend)
+```bash
+cd tests/3-codegen/autogen
+./eval_lab3.sh
+```
+*Compiles to assembly, links with runtime, and runs under QEMU*
+
+#### 4. Optimization Tests
+```bash
+cd tests/4-opt
+./eval_lab4.sh mem2reg ../testcases_general test    # Test Mem2Reg optimization
+./eval_lab4.sh licm ../testcases_general test       # Test LICM optimization
+```
+
+## 🔗 References
+
+### Technical Documentation
+- [LLVM Documentation](https://llvm.org/docs/) - IR framework and optimization techniques
+- [Flex & Bison Manual](https://www.gnu.org/software/bison/manual/) - Lexer and parser generators
+- [CMake Documentation](https://cmake.org/documentation/) - Build system configuration
+
+
+## Acknowledgments
+
+This project was developed as part of the compiler course at USTC. The initial framework and test infrastructure were provided by the course teaching team.
+
+---
+*A complete CMinus compiler implementation demonstrating modern compilation techniques and optimization passes.*

@@ -110,7 +110,6 @@ suite = [
 
 
 def eval():
-    f = open("eval_result", 'w')
     EXE_PATH = "../../../build/cminusfc"
     TEST_BASE_PATH = "./testcases/"
     ANSWER_BASE_PATH = "./answers/"
@@ -121,9 +120,9 @@ def eval():
         level_name = level[0]
         bonus = level[2]
         cases = level[1]
-        f.write('===========%s START========\n' % level_name)
+        print('===========%s START========' % level_name)
         for case in cases:
-            f.write('%s:' % case)
+            print('%s:' % case, end='')
             TEST_PATH = TEST_BASE_PATH + level_name + "/" + case
             ANSWER_PATH = ANSWER_BASE_PATH + level_name + "/" + case
             score = cases[case][0]
@@ -135,7 +134,7 @@ def eval():
                 result = subprocess.run([EXE_PATH, "-o", TEST_PATH + ".ll", "-emit-llvm",
                                         TEST_PATH + ".cminus"], stderr=subprocess.PIPE, timeout=1)
             except Exception as _:
-                f.write('\tFail\n')
+                print('\tFail')
                 continue
 
             if result.returncode == 0:
@@ -151,29 +150,29 @@ def eval():
                         COMMAND, input=input_option, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=1)
                     with open(ANSWER_PATH + ".out", "rb") as fout:
                         if result.stdout == fout.read():
-                            f.write('\tSuccess\n')
+                            print('\tSuccess')
                             lv_points += score
                         else:
-                            f.write('\tFail\n')
+                            print('\tFail')
                             has_bonus = False
                 except Exception as _:
-                    f.write('\tFail\n')
+                    print('\tFail')
                     has_bonus = False
                 finally:
                     subprocess.call(
                         ["rm", "-rf", TEST_PATH, TEST_PATH + ".o", TEST_PATH + ".ll"])
 
             else:
-                f.write('\tFail\n')
+                print('\tFail')
                 has_bonus = False
 
         if has_bonus:
             lv_points += bonus
 
         total_points += lv_points
-        f.write('points of %s is: %d\n' % (level_name, lv_points))
-        f.write('===========%s END========\n\n' % level_name)
-    f.write('total points: %d\n' % total_points)
+        print('points of %s is: %d' % (level_name, lv_points))
+        print('===========%s END========\n' % level_name)
+    print('total points: %d' % total_points)
 
 
 if __name__ == "__main__":
