@@ -57,7 +57,7 @@ CMinus is a subset of the C programming language designed for educational purpos
 ### Building
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/flora-212/compilor.git
 cd 2024ustc-jianmu-compiler
 
 # Create build directory
