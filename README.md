@@ -99,13 +99,11 @@ The project includes a comprehensive test suite covering all compiler phases. Ea
 
 ### Test Categories
 
-| Test Phase          | Directory                  | Purpose                                   | Key Scripts                        |
-| ------------------- | -------------------------- | ----------------------------------------- | ---------------------------------- |
-| **Frontend**        | `tests/1-parser/`          | Lexical & syntax analysis, AST generation | `eval_phase1.sh`, `eval_phase2.sh` |
-| **IR Generation**   | `tests/2-ir-gen/`          | AST to LLVM IR translation                | `autogen/eval_lab2.sh`             |
-| **Code Generation** | `tests/3-codegen/`         | IR to assembly conversion                 | `autogen/eval_lab3.sh`             |
-| **Optimization**    | `tests/4-opt/`             | Optimization pass correctness             | `eval_lab4.sh`                     |
-| **General**         | `tests/testcases_general/` | End-to-end validation                     | Various `.cminus` files            |
+- **Frontend**: Located in `tests/1-parser/`, this phase tests lexical and syntax analysis as well as AST generation. Key scripts include `eval_phase1.sh` and `eval_phase2.sh`.
+- **IR Generation**: Found in `tests/2-ir-gen/`, this phase translates the AST into LLVM IR. The main script is `autogen/eval_lab2.sh`.
+- **Code Generation**: In `tests/3-codegen/`, this phase converts IR to assembly. The key script is `autogen/eval_lab3.sh`.
+- **Optimization**: Located in `tests/4-opt/`, this phase validates the correctness of optimization passes. The main script is `eval_lab4.sh`.
+- **General Testing**: End-to-end validation is performed using various `.cminus` files in `tests/testcases_general/`.
 
 ### Running Tests
 
